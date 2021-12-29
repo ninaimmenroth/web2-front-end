@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 
 import {connect} from 'react-redux';
 import {getShowLoginDialogAction} from '../actions/AuthenticationActions'
@@ -19,9 +19,7 @@ class LoginButton extends Component{
     render() {
         return(
             <div>
-                <Button variant='outline-success' onClick={this.showLoginDialog}>
-                    Login
-                </Button>
+                <button onClick={this.showLoginDialog} >Log in</button>
             </div>
         )
     }

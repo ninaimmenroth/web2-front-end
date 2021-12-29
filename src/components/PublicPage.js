@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import CardList from './CardList'
-//import LoginButton from './LoginButton'
+import LoginButton from './LoginButton'
 //import * as RecipeActions from '../actions/RecipeActions'
-//import { bindActionCreators } from "@reduxjs/toolkit";
+import { bindActionCreators } from "@reduxjs/toolkit";
 
 
 const mapStateToProps = state => {
@@ -108,6 +108,7 @@ class PublicPage extends Component {
     render() {
         return (
             <div>
+                <LoginButton/>
                 <p>Public Page</p>
                 <CardList recipes={response.recipes}/>
             </div>
@@ -123,5 +124,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const ConnectedPublicPage = connect(mapStateToProps, mapDispatchToProps)(PublicPage)
 */
-//export default ConnectedPublicPage;
+// default ConnectedPublicPage;
 export default PublicPage;

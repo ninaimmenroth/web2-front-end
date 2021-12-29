@@ -5,7 +5,7 @@ import SearchForm from "./SearchForm";
 import logo from '../pics/logo.svg';
 
 
-//import UserSessionWidget from './UserSessionWidget'
+import UserSessionWidget from './UserSessionWidget'
 
 
 class TopMenu extends Component {
@@ -18,7 +18,7 @@ class TopMenu extends Component {
                 <SearchForm/>
                 <a href="#login">Log in</a>
                 <a href="#signup">Sign up</a>
-                
+                <UserSessionWidget/>
             </div>
         )
     }
@@ -26,4 +26,4 @@ class TopMenu extends Component {
 
 export default TopMenu
 
-//<UserSessionWidget/>
+//

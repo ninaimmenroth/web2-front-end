@@ -1,15 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import {applyMiddleware, createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
+import thunk from 'redux-thunk'
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
+import RootReducer from './reducer/RootReducer';
+//import RecipeReducer from './reducer/RecipeReducer';
+
+
+const middlewares = [thunk];
+
+const store = createStore(RootReducer, applyMiddleware(...middlewares));
+//const store = createStore(combineReducers({RootReducer, RecipeReducer}), applyMiddleware(...middlewares));
+//const store = createStore(RootReducer);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 

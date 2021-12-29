@@ -7,8 +7,10 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import * as AuthenticationActions from '../actions/AuthenticationActions'
+import * as AuthenticationActions from '../actions/AuthenticationActions';
 import { bindActionCreators } from "@reduxjs/toolkit";
+//import style from '../styles/usersessionwidget.module.css';
+//import style from "../styles/usersessionwidget.module.css";
 
 
 const mapStateToProps = state => {
@@ -23,10 +25,12 @@ class UserSessionWidget extends Component {
             username: '',
             password: ''
         };
+        
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        
     }
 
     canLogin() {
@@ -38,6 +42,7 @@ class UserSessionWidget extends Component {
     }
 
     handleShow() {
+
         //this.setState({show: true})
         const { showLoginDialogAction } = this.props;
         showLoginDialogAction();
