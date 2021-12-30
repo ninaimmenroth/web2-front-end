@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import Carousel from 'react-bootstrap/Carousel'
 import CardList from './CardList'
-import LoginButton from './LoginButton'
-import * as RecipeActions from '../actions/RecipeActions'
+//import * as RecipeActions from '../actions/RecipeActions'
 import { bindActionCreators } from "@reduxjs/toolkit";
 
 
 const mapStateToProps = state => {
-    return {
-      recipes : state.recipes
-    }
+    return state
 }
 
 const response = {
@@ -97,34 +94,17 @@ const response = {
       ]
 };
 
-class PublicPage extends Component {
-    constructor(props) {
-        super(props);
-    }
+class RecipePage extends Component {
 
-    componentDidMount(){
-        const { getGetRecipesAction } = this.props;
-        getGetRecipesAction();
-    }
 
     render() {
         return (
             <div>
-                <LoginButton/>
-                <p>Public Page</p>
-                <CardList recipes={this.props.recipes}/>
+                <p>Recipe Page</p>
+                <CardList recipes={response.recipes}/>
             </div>
         )
     }
 }
-//<CardList recipes={this.props.recipes}/>
-//<LoginButton/>
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-    getGetRecipesAction: RecipeActions.getAllRecipes
-}, dispatch)
-
-const ConnectedPublicPage = connect(mapStateToProps, mapDispatchToProps)(PublicPage)
-
-export default ConnectedPublicPage;
-//export default PublicPage;
+export default RecipePage

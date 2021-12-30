@@ -119,7 +119,37 @@ function getAllRecipesRequest(){
     };
 
     return fetch('https://localhost:8080/recipes', requestOptions)
-        .then(recipes => {
-            return recipes;
+        .then(handleResponse)
+        .then(recipeList => {
+            return recipeList;
         })
+}
+
+function handleResponse(response){
+
+    return response.text().then(text => {
+        
+        const data = text && JSON.parse(text);
+        
+        if (!response.ok){
+            if(response.status === 401){
+                //auto logout
+                logout();
+            }
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+        else{
+            console.log(data)
+            let recipeList = {
+                recipes: data,
+            }
+            return recipeList;
+        }
+    })
+}
+
+function logout(){
+    //user und token null setzen
+    console.error('Should logout user');
 }

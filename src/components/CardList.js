@@ -3,7 +3,7 @@ import style from "../styles/cardlist.module.css";
 import RecipeCard from "./RecipeCard";
 
 function CardList(props) {
-    const recipes = props.recipes;
+    const recipes = props;
     console.log(recipes);
     
     return (

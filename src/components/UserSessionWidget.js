@@ -9,6 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import * as AuthenticationActions from '../actions/AuthenticationActions';
 import { bindActionCreators } from "@reduxjs/toolkit";
+import { Dropdown } from "bootstrap";
 //import style from '../styles/usersessionwidget.module.css';
 //import style from "../styles/usersessionwidget.module.css";
 
@@ -83,29 +84,37 @@ class UserSessionWidget extends Component {
 
         let widgetButton;
         if (user) {
-            const navIcon = <img src={profilePic} width="50" className="rounded-circle z-depth-0" alt=" avatar"></img>
+            const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
+            const navIcon = <img src={profilePic} width="50" className="rounded-circle z-depth-0" alt="avatar"></img>
             const userName = user.username;
             widgetButton =
                 (<div>
-                    <Nav.Link href="#home" id="my-top-menu-drop-down" className="color_ff">
-                        <i className="color_ff fa fa-envelope mr-3 fa-fw"></i>
-                    </Nav.Link>
-                    <NavDropdown alignRight title={navIcon} id="my-top-menu-drop-down">
-                        <NavDropdown.Item><i className="fa fa-user fa-fw"></i>: {userName}</NavDropdown.Item> <NavDropdown.Divider />
-                        <NavDropdown.Item href="*" onClick={this.handleLogout}>
-                            <i className="fa fa-sign-out fa-fw"></i> Logout</NavDropdown.Item>
+                    <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
+                    <NavDropdown title={navIcon} id="my-top-menu-drop-down">
+                        <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
+                    </Nav>
                 </div>);
         }
         else {
             widgetButton = <Button variant="primary" onClick={this.handleShow}>
-                Launch demo modal
+                Login
             </Button>
             /*<a href="*"><i style={{ color: 'black', fontSize: '30px' }} onClick={this.handleShow}
                 className="fa fa-user-circle loginMenuText"></i>
             </a>*/
         }
-
+/*
+<Nav.Link href="#home" id="my-top-menu-drop-down" className="color_ff">
+                        <i className="color_ff fa fa-envelope mr-3 fa-fw"></i>
+                    </Nav.Link>
+<NavDropdown.Item><i className="fa fa-user fa-fw"></i>: {user.userName}</NavDropdown.Item> <NavDropdown.Divider />
+<NavDropdown.Item href="*" onClick={this.handleLogout}>
+<i className="fa fa-sign-out fa-fw"></i> Logout</NavDropdown.Item>*/
 
         return (
             <div>

@@ -14,10 +14,10 @@ class TopMenu extends Component {
         return (
             <div className={style.navbar}>
                 <img className="logo" src={logo} alt="cuvega-logo" />
-                <a className="active" href="#home">Cuvega</a>
+                <a className="active" href="/">Cuvega</a>
                 <SearchForm/>
-                <a href="#login">Log in</a>
-                <a href="#signup">Sign up</a>
+                <a href="/RecipePage">Recipes</a>
+                <a href="/CommentsPage">Comments</a>
                 <UserSessionWidget/>
             </div>
         )

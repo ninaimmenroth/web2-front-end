@@ -10,7 +10,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
-import RootReducer from './reducer/RootReducer';
+import RootReducer from './reducer/AuthenticationReducer';
 //import RecipeReducer from './reducer/RecipeReducer';
 
 const initialState = {};
@@ -18,8 +18,6 @@ const initialState = {};
 const middlewares = [thunk];
 
 const store = createStore(RootReducer, initialState, applyMiddleware(...middlewares));
-//const store = createStore(combineReducers({RootReducer, RecipeReducer}), applyMiddleware(...middlewares));
-//const store = createStore(RootReducer);
 
 ReactDOM.render(
   <Provider store={store}>
