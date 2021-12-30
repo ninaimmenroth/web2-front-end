@@ -1,3 +1,4 @@
+import {Buffer} from 'buffer';
 export const SHOW_LOGIN_DIALOG = 'SHOW_LOGIN_DIALOG';
 export const HIDE_LOGIN_DIALOG = 'HIDE_LOGIN_DIALOG';
 
@@ -117,5 +118,6 @@ function handleResponse(response){
 }
 
 function logout(){
+    //user und token null setzen
     console.error('Should logout user');
 }

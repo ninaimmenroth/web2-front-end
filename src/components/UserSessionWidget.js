@@ -120,7 +120,7 @@ class UserSessionWidget extends Component {
                         <Form>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>User ID</Form.Label>
-                                <Form.Control type="text" placeholder="Enter email" name='username' onChange={this.handleChange} />
+                                <Form.Control type="text" placeholder="Enter username" name='username' onChange={this.handleChange} />
 
                             </Form.Group>
 

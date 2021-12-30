@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import './App.css';
@@ -13,8 +13,11 @@ import "@fontsource/ropa-sans"; // Defaults to weight 400.
 const mapStateToProps = state => {
   return state;
 }
-/*
-const user = this.props.user;
+
+class App extends Component {
+  render() {
+
+    const user = this.props.user;
 
     let workspace;
 
@@ -24,15 +27,16 @@ const user = this.props.user;
     else{
       workspace = <PublicPage/>
     }
-*/
-function App() {
-  return (
-    <div className="App">
-      <TopMenu />
-      <PublicPage/>
-      <Footer />
-    </div>
-  );
+
+    return (
+      <div className="App">
+        <TopMenu />
+        {workspace} 
+        <Footer />
+      </div>
+    );
+  }
 }
 
 export default connect(mapStateToProps)(App);
+

@@ -13,10 +13,11 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import RootReducer from './reducer/RootReducer';
 //import RecipeReducer from './reducer/RecipeReducer';
 
+const initialState = {};
 
 const middlewares = [thunk];
 
-const store = createStore(RootReducer, applyMiddleware(...middlewares));
+const store = createStore(RootReducer, initialState, applyMiddleware(...middlewares));
 //const store = createStore(combineReducers({RootReducer, RecipeReducer}), applyMiddleware(...middlewares));
 //const store = createStore(RootReducer);
 
