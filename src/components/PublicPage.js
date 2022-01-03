@@ -7,11 +7,10 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 
 
 const mapStateToProps = state => {
-    return {
-      recipes : state.recipes
-    }
+    return state;
 }
 
+/*
 const response = {
     "recipes":[
         {
@@ -96,15 +95,22 @@ const response = {
         }
       ]
 };
+*/
 
 class PublicPage extends Component {
-    constructor(props) {
-        super(props);
-    }
 
-    componentDidMount(){
+  constructor(props) {
+      super(props);
+      this.state = {
+        recipes: [{
+
+        }]
+      }
+  }
+
+    async componentDidMount(){
         const { getGetRecipesAction } = this.props;
-        getGetRecipesAction();
+        await getGetRecipesAction();
     }
 
     render() {
@@ -112,12 +118,13 @@ class PublicPage extends Component {
             <div>
                 <LoginButton/>
                 <p>Public Page</p>
-                <CardList recipes={this.props.recipes}/>
+                <p>x</p>
+                <CardList recipes={this.props.recipeReducer.recipes} />
             </div>
         )
     }
 }
-//<CardList recipes={this.props.recipes}/>
+//<CardList recipes={this.props.recipeReducer.recipes}/>
 //<LoginButton/>
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -127,4 +134,3 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 const ConnectedPublicPage = connect(mapStateToProps, mapDispatchToProps)(PublicPage)
 
 export default ConnectedPublicPage;
-//export default PublicPage;

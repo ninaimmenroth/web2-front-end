@@ -4,18 +4,27 @@ import RecipeCard from "./RecipeCard";
 
 function CardList(props) {
     const recipes = props;
-    console.log(recipes);
-    
+    console.log(recipes.recipes.recipes);
     return (
-    <div className={style.recipes}>
-    {recipes.map(recipes =>(
+        <div className={style.recipes}>
+            {recipes.recipes.recipes.map(recipes => (
+              <RecipeCard 
+                key ={recipes._id} 
+                title={recipes.title} 
+                preparation_time={recipes.preparation_time}
+              />
+            ))}
+        </div>
+    );
+
+/*
+    {recipes.recipes.recipes.map(recipes =>(
       <RecipeCard 
       key ={recipes._id} 
       title={recipes.title} 
       preparation_time={recipes.preparation_time}  />
     ))}
-    </div>);
-
+*/
 }
 
 export default CardList;

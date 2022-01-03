@@ -1,3 +1,4 @@
+import config from '../config/config';
 import {Buffer} from 'buffer';
 export const SHOW_LOGIN_DIALOG = 'SHOW_LOGIN_DIALOG';
 export const HIDE_LOGIN_DIALOG = 'HIDE_LOGIN_DIALOG';
@@ -67,7 +68,7 @@ function login(userID, password){
         body: JSON.stringify({userID, password})
     };
 
-    return fetch('https://localhost:8080/auth/login', requestOptions)
+    return fetch(config.backendURL + '/auth/login', requestOptions)
         .then(handleResponse)
         .then(userSession => {
             return userSession;
@@ -80,7 +81,7 @@ function loginBasic(userID, password){
         headers: {'Authorization': 'Basic ' + Buffer.from(userID + ":" + password).toString('base64')}
     };
 
-    return fetch('https://localhost:8080/auth/loginBasic', requestOptions)
+    return fetch(config.backendURL + '/auth/loginBasic', requestOptions)
         .then(handleResponse)
         .then(userSession => {
             return userSession;
@@ -120,4 +121,8 @@ function handleResponse(response){
 function logout(){
     //user und token null setzen
     console.error('Should logout user');
+
+//    return dispatch => {
+//        dispatch();
+//    }
 }

@@ -1,0 +1,15 @@
+{
+    "backendURL": "https://localhost:8080",
+
+    "backendEndpoints": {
+
+    },
+
+    "frontendEndpoints": {
+        "home": "/",
+        "recipe": "/RecipePage",
+        "comments": "/CommentsPage",
+        "private": "/PrivatePage",
+        "users": "/UsersPage"
+    }
+}

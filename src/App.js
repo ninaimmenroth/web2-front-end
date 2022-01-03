@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import config from './config/config';
 import './App.css';
 import TopMenu from './components/TopMenu';
 import PublicPage from './components/PublicPage';
 import PrivatePage from './components/PrivatePage';
 import RecipePage from './components/RecipePage'
 import CommentsPage from './components/CommentsPage';
-import UsersPage from './components/UsersPage';
+//import UsersPage from './components/UsersPage';
 
 import Footer from './components/Footer';
 
@@ -21,12 +21,12 @@ const mapStateToProps = state => {
 class App extends Component {
   render() {
 
-    const user = this.props.user;
+    const user = this.props.authReducer.user;
 
     let workspace;
 
     if(user){
-      workspace = <Route path="/" element={<PrivatePage/>} exact /> 
+      workspace = <Route path="/" element={<PrivatePage/>} exact />
     }
     else{
       workspace = <Route path="/" element={<PublicPage/>} exact /> 
@@ -37,15 +37,18 @@ class App extends Component {
       <div className="App">
         <TopMenu />
           <Routes>
-            <Route path="/RecipePage" element={<RecipePage/>} exact /> 
-            <Route path="/CommentsPage" element={<CommentsPage/>} exact /> 
-            <Route path="/PrivatePage" element={<PrivatePage/>} exact /> 
+            <Route path={config.frontendEndpoints.recipe} element={<RecipePage/>} exact /> 
+            <Route path={config.frontendEndpoints.comments} element={<CommentsPage/>} exact /> 
+            <Route path={config.frontendEndpoints.private} element={<PrivatePage/>} exact /> 
             {workspace} 
           </Routes>
         <Footer />
       </div>
       </Router>
     );
+
+//    <Route path={config.frontendEndpoints.users} element={<UsersPage/>} exact /> 
+
   }
 }
 

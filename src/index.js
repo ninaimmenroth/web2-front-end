@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {applyMiddleware, createStore, combineReducers} from 'redux';
+import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk'
 
@@ -10,7 +10,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
-import RootReducer from './reducer/AuthenticationReducer';
+import RootReducer from './reducer/RootReducer';
 //import RecipeReducer from './reducer/RecipeReducer';
 
 const initialState = {};

@@ -3,7 +3,8 @@ import * as AuthenticationActions from '../actions/AuthenticationActions'
 const initialState = {
     user: null,
     loginPending: false,
-    showLoginDialog: false
+    showLoginDialog: false,
+    accessToken: null
 };
 
 function AuthenticationReducer(state = initialState, action) {
@@ -42,7 +43,8 @@ function AuthenticationReducer(state = initialState, action) {
             return {
                 ...state,
                 loginPending: false,
-                error: 'Authentication failed'
+                error: 'Authentication failed',
+                accessToken: null
             }
         default:
             return state;

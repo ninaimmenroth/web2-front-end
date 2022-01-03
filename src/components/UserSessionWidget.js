@@ -7,6 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import {Link} from 'react-router-dom';
 import * as AuthenticationActions from '../actions/AuthenticationActions';
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { Dropdown } from "bootstrap";
@@ -69,8 +70,8 @@ class UserSessionWidget extends Component {
     }
 
     render() {
-        const { user, loginPending } = this.props;
-        var showDialog = this.props.showLoginDialog;
+        const { user, loginPending } = this.props.authReducer;
+        var showDialog = this.props.authReducer.showLoginDialog;
         if (showDialog === undefined) {
             showDialog = false;
         }
@@ -85,7 +86,7 @@ class UserSessionWidget extends Component {
         let widgetButton;
         if (user) {
             const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
-            const navIcon = <img src={profilePic} width="50" className="rounded-circle z-depth-0" alt="avatar"></img>
+            const navIcon = <img src={profilePic} width="50" className="rounded-circle z-depth-0" alt="avatar" />
             const userName = user.username;
             widgetButton =
                 (<div>
@@ -101,9 +102,9 @@ class UserSessionWidget extends Component {
                 </div>);
         }
         else {
-            widgetButton = <Button variant="primary" onClick={this.handleShow}>
+            widgetButton = <Link to="#" onClick={this.handleShow}>
                 Login
-            </Button>
+            </Link>
             /*<a href="*"><i style={{ color: 'black', fontSize: '30px' }} onClick={this.handleShow}
                 className="fa fa-user-circle loginMenuText"></i>
             </a>*/

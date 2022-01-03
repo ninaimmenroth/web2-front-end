@@ -4,7 +4,9 @@
     justify-content: space-around;
     background: #F8EEE5;
     align-items: center;
+    /*
     overflow: hidden;
+    */
 }
 
 /* Style the links inside the navigation bar */

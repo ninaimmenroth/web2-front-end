@@ -1,7 +1,7 @@
 import * as RecipeActions from '../actions/RecipeActions'
 
 const initialState = {
-    recipes: [],
+    recipes: [{}],
     recipesPending: false
 };
 
