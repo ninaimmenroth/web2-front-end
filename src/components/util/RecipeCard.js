@@ -1,6 +1,6 @@
 import React from "react";
-import style from "../styles/recipecard.module.css";
-import foodPic from '../pics/default.jpeg'
+import style from "../../styles/recipecard.module.css";
+import foodPic from '../../pics/default.jpeg'
 
 function RecipeCard({title, preparation_time}) {
 

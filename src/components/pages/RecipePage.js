@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Carousel from 'react-bootstrap/Carousel'
-import CardList from './CardList'
+import CardList from '../util/CardList'
 //import * as RecipeActions from '../actions/RecipeActions'
 import { bindActionCreators } from "@reduxjs/toolkit";
 
@@ -94,17 +93,17 @@ const response = {
       ]
 };
 
-class CommentsPage extends Component {
+class RecipePage extends Component {
 
 
     render() {
         return (
             <div>
-                <p>Comments Page</p>
+                <p>Recipe Page</p>
                 <CardList recipes={response.recipes}/>
             </div>
         )
     }
 }
 
-export default CommentsPage
+export default RecipePage

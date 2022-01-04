@@ -7,9 +7,11 @@
 
     "frontendEndpoints": {
         "home": "/",
+        "recipeCreate": "/RecipeCreation",
         "recipe": "/RecipePage",
         "comments": "/CommentsPage",
         "private": "/PrivatePage",
-        "users": "/UsersPage"
+        "users": "/UsersPage",
+        "admin": "/AdminPage"
     }
 }

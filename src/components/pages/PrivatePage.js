@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import Carousel from 'react-bootstrap/Carousel'
-import CardList from './CardList'
+import CardList from '../util/CardList';
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect } from 'react-redux';
-import * as RecipeActions from '../actions/RecipeActions'
+import * as RecipeActions from '../../actions/RecipeActions'
 
 
 const mapStateToProps = state => {
@@ -21,10 +20,11 @@ class PrivatePage extends Component {
         return (
             <div>
                 <p>Private Page</p>
-                <CardList recipes={this.props.recipeReducer.recipes} />
+                
             </div>
         )
     }
+    //<CardList recipes={this.props.recipeReducer.recipes} />
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
