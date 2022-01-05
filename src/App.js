@@ -9,11 +9,8 @@ import RecipePage from './components/pages/RecipePage';
 import RecipeCreationPage from './components/pages/RecipeCreationPage';
 import CommentsPage from './components/pages/CommentsPage';
 import AdminPage from './components/pages/AdminPage';
-
 //import UsersPage from './components/UsersPage';
-
 import Footer from './components/util/Footer';
-
 import "@fontsource/ropa-sans"; // Defaults to weight 400.
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 
@@ -29,33 +26,43 @@ class App extends Component {
     let workspace;
 
     if(user){
-      workspace = <Route path="/" element={<PrivatePage/>} exact />
-    }
-    else{
-      workspace = <Route path="/" element={<PublicPage/>} exact /> 
+      workspace = 
+        <Routes>
+          <Route path={config.frontendEndpoints.private} element={<PrivatePage />} exact />
+          <Route path={config.frontendEndpoints.admin} element={<AdminPage />} exact /> 
+          
+          <Route path={config.frontendEndpoints.recipeCreate} element={<RecipeCreationPage />} exact /> 
+
+          <Route path={config.frontendEndpoints.recipe} element={<RecipePage />} exact>
+            <Route path={config.frontendEndpoints.recipe + config.frontendSubEndpoints.add} element={<RecipeCreationPage />} exact /> 
+            <Route path={config.frontendEndpoints.recipe + "/:recipeID"} element={<RecipePage />} exact /> 
+          </Route> 
+          <Route path={config.frontendEndpoints.comments} element={<CommentsPage />} exact />
+          <Route path="*" element={<PrivatePage />} />
+        </Routes>
+    } else {
+      workspace = 
+        <Routes>
+          <Route path={config.frontendEndpoints.home} element={<PublicPage />} exact /> 
+          <Route path={config.frontendEndpoints.recipe} element={<RecipePage />} exact>
+            <Route path={config.frontendEndpoints.recipe + "/:recipeID"} element={<RecipePage />} exact /> 
+          </Route> 
+          <Route path={config.frontendEndpoints.comments} element={<CommentsPage />} exact />
+          <Route path="*" element={<PublicPage />} />
+        </Routes>
     }
 
     return (
       <Router>
-      <div className="App">
-        <TopMenu />
-          <Routes>
-            <Route path={config.frontendEndpoints.admin} element={<AdminPage/>} exact /> 
-            <Route path={config.frontendEndpoints.recipeCreate} element={<RecipeCreationPage/>} exact /> 
-            <Route path={config.frontendEndpoints.recipe} element={<RecipePage/>} exact /> 
-            <Route path={config.frontendEndpoints.comments} element={<CommentsPage/>} exact /> 
-            <Route path={config.frontendEndpoints.private} element={<PrivatePage/>} exact /> 
-            {workspace} 
-          </Routes>
-        <Footer />
-      </div>
+        <div className="App">
+          <TopMenu />
+            {workspace}
+          <Footer />
+        </div>
       </Router>
     );
-
-//    <Route path={config.frontendEndpoints.users} element={<UsersPage/>} exact /> 
 
   }
 }
 
 export default connect(mapStateToProps)(App);
-

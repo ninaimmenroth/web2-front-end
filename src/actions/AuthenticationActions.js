@@ -6,6 +6,10 @@ export const HIDE_LOGIN_DIALOG = 'HIDE_LOGIN_DIALOG';
 export const AUTHENTICATION_PENDING = 'AUTHENTICATION_PENDING';
 export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
 export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
+export const SHOW_LOGOUT_DIALOG = 'SHOW_LOGOUT_DIALOG';
+export const HIDE_LOGOUT_DIALOG = 'HIDE_LOGOUT_DIALOG';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+
 
 export function getShowLoginDialogAction(){
     return {
@@ -16,6 +20,24 @@ export function getShowLoginDialogAction(){
 export function getHideLoginDialogAction(){
     return {
         type: HIDE_LOGIN_DIALOG
+    }
+}
+
+export function getShowLogoutDialogAction(){
+    return {
+        type: SHOW_LOGOUT_DIALOG
+    }
+}
+
+export function getHideLogoutDialogAction(){
+    return {
+        type: HIDE_LOGOUT_DIALOG
+    }
+}
+
+export function getLogoutSuccessAction(){
+    return {
+        type: LOGOUT_SUCCESS
     }
 }
 
@@ -118,11 +140,11 @@ function handleResponse(response){
     })
 }
 
-function logout(){
+export function logout(){
     //user und token null setzen
     console.error('Should logout user');
 
-//    return dispatch => {
-//        dispatch();
-//    }
+    return dispatch => {
+        dispatch(getLogoutSuccessAction());
+    }
 }

@@ -3,7 +3,9 @@ import * as AuthenticationActions from '../actions/AuthenticationActions'
 const initialState = {
     user: null,
     loginPending: false,
+    logoutPending: false,
     showLoginDialog: false,
+    showLogoutDialog: false,
     accessToken: null
 };
 
@@ -13,7 +15,6 @@ function AuthenticationReducer(state = initialState, action) {
 
     switch (action.type) {
         case AuthenticationActions.SHOW_LOGIN_DIALOG:
-            console.log('Changing state ')
             return {
                 ...state,
                 showLoginDialog: true,
@@ -23,6 +24,18 @@ function AuthenticationReducer(state = initialState, action) {
             return {
                 ...state,
                 showLoginDialog: false,
+                error: null
+            }
+        case AuthenticationActions.SHOW_LOGOUT_DIALOG:
+            return {
+                ...state,
+                showLogoutDialog: true,
+                error: null
+            }
+        case AuthenticationActions.HIDE_LOGOUT_DIALOG:
+            return {
+                ...state,
+                showLogoutDialog: false,
                 error: null
             }
         case AuthenticationActions.AUTHENTICATION_PENDING:
@@ -44,6 +57,13 @@ function AuthenticationReducer(state = initialState, action) {
                 ...state,
                 loginPending: false,
                 error: 'Authentication failed',
+                accessToken: null
+            }
+        case AuthenticationActions.LOGOUT_SUCCESS:
+            return {
+                ...state,
+                showLogoutDialog: false,
+                user: null,
                 accessToken: null
             }
         default:

@@ -1,42 +1,41 @@
-import React, {Component} from "react";
+import React from "react";
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+import {Link} from 'react-router-dom';
 
-class UserTable extends Component {
+function UserTable(props) {
+    const users = props.users;
 
-
-    render() {
-        return (
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td colSpan={2}>Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </Table>
-        )
+    if (users === undefined) {
+        users = false;
     }
+
+
+    return (
+        <Table hover responsive>
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Administrator</th>
+                    <th>Löschung beantragt </th>
+                    <th>Bearbeiten</th>
+                    <th>Löschen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {(!users) ? "NO ENTRY !" : users.map(users => (
+                    <tr>
+                        <td>{users.userName}</td>
+                        <td>{users.isAdministrator ? "Ja" : "Nein"}</td>
+                        <td>{users.deletedFlag ? "Ja" : "Nein"}</td>
+                        <td><Button>Bearbeiten</Button></td>
+                        <td><Link to="#" data-value={users.userID} className="btn btn-primary">Löschen</Link></td>
+                    </tr>
+                ))}
+            </tbody>
+        </Table>
+    )
+
 }
 
 export default UserTable

@@ -17,14 +17,19 @@ class PrivatePage extends Component {
     }
 
     render() {
+        let shownRecipes;
+
+        if(this.props.recipeReducer.recipes) {
+          shownRecipes = this.props.recipeReducer.recipes;
+        }
+
         return (
             <div>
                 <p>Private Page</p>
-                
+                <CardList recipes={shownRecipes} />
             </div>
         )
     }
-    //<CardList recipes={this.props.recipeReducer.recipes} />
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({

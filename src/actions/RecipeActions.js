@@ -1,8 +1,12 @@
+import config from '../config/config';
+
 export const GET_RECIPES_SUCCESS = 'GET_RECIPES_SUCCESS';
+export const GET_SINGLE_RECIPE_SUCCESS = 'GET_SINGLE_RECIPE_SUCCESS';
 export const NEW_RECIPE_SUCCESS = 'NEW_RECIPE_SUCCESS';
 export const NO_RECIPE = 'NO_RECIPE';
 export const DELETE_RECIPE_SUCCESS = 'DELETE_RECIPE_SUCCESS';
 export const GET_RECIPES_PENDING = 'GET_RECIPES_PENDING';
+export const GET_SINGLE_RECIPE_PENDING = 'GET_SINGLE_RECIPE_PENDING';
 export const NEW_RECIPE_PENDING = 'NEW_RECIPE_PENDING';
 export const DELETE_RECIPE_PENDING = 'DELETE_RECIPE_PENDING';
 
@@ -10,6 +14,7 @@ export const SHOW_RECIPE_DIALOG = 'SHOW_RECIPE_DIALOG';
 export const HIDE_RECIPE_DIALOG = 'HIDE_RECIPE_DIALOG';
 
 export const GET_RECIPES_FAILED = 'GET_RECIPES_FAILED';
+export const GET_SINGLE_RECIPE_FAILED = 'GET_SINGLE_RECIPE_FAILED';
 export const NEW_RECIPE_FAILED = 'NEW_RECIPE_FAILED';
 export const DELETE_RECIPE_FAILED = 'DELETE_RECIPE_FAILED';
 
@@ -17,6 +22,13 @@ export function getGetRecipesSuccessAction(recipeList){
     return {
         type: GET_RECIPES_SUCCESS,
         recipes: recipeList
+    }
+}
+
+export function getGetSingleRecipeSuccessAction(recipeList){
+    return {
+        type: GET_SINGLE_RECIPE_SUCCESS,
+        recipe: recipeList
     }
 }
 
@@ -53,9 +65,17 @@ export function getDeleteRecipeSuccessAction(recipes){
     }
 }
 
+
+
 export function getGetRecipesPendingAction(){
     return {
         type: GET_RECIPES_PENDING
+    }
+}
+
+export function getGetSingleRecipePendingAction(){
+    return {
+        type: GET_SINGLE_RECIPE_PENDING
     }
 }
 
@@ -71,9 +91,18 @@ export function getDeleteRecipePendingAction(){
     }
 }
 
+
+
 export function getGetRecipesFailedAction(error){
     return {
         type: GET_RECIPES_FAILED,
+        error: error
+    }
+}
+
+export function getGetSingleRecipeFailedAction(error){
+    return {
+        type: GET_SINGLE_RECIPE_FAILED,
         error: error
     }
 }
@@ -118,7 +147,40 @@ function getAllRecipesRequest(){
         method: 'GET',
     };
 
-    return fetch('https://localhost:8080/recipes', requestOptions)
+    return fetch(config.backendURL + config.backendEndpoints.recipes, requestOptions)
+        .then(handleResponse)
+        .then(recipeList => {
+            return recipeList;
+        })
+}
+
+export function getSingleRecipe(recipeID){
+    console.log('get one recipe');
+
+    return dispatch => {
+        dispatch(getGetSingleRecipePendingAction());
+        getSingleRecipeRequest(recipeID)
+            .then(
+                recipes => {
+                    const action = getGetSingleRecipeSuccessAction(recipes);
+                    dispatch(action);
+                },
+                error => {
+                    dispatch(getGetSingleRecipeFailedAction(error));
+                }
+            )
+            .catch(error => {
+                dispatch(getGetSingleRecipeFailedAction(error));
+            })
+    }
+}
+
+function getSingleRecipeRequest(recipeID){
+    const requestOptions= {
+        method: 'GET',
+    };
+
+    return fetch(config.backendURL + config.backendEndpoints.singleRecipe + recipeID, requestOptions)
         .then(handleResponse)
         .then(recipeList => {
             return recipeList;
@@ -141,9 +203,7 @@ function handleResponse(response){
         }
         else{
             console.log(data)
-            let recipeList = {
-                recipes: data,
-            }
+            let recipeList = data;
             return recipeList;
         }
     })
@@ -152,4 +212,8 @@ function handleResponse(response){
 function logout(){
     //user und token null setzen
     console.error('Should logout user');
+}
+
+export function createRecipe(){
+    
 }

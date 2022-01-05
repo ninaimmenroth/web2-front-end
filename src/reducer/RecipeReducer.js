@@ -2,6 +2,7 @@ import * as RecipeActions from '../actions/RecipeActions'
 
 const initialState = {
     recipes: [{}],
+    recipe: [{}],
     recipesPending: false
 };
 
@@ -30,6 +31,28 @@ function RecipeReducer(state = initialState, action) {
                 recipesPending: false,
                 error: "Get recipes failed"
             }
+
+        case RecipeActions.GET_SINGLE_RECIPE_SUCCESS:
+            console.log('Reducer gSRS: ' + action)
+            return {
+                ...state,
+                recipe: action.recipe,
+                recipesPending: false,
+                error: null
+            }
+        case RecipeActions.GET_SINGLE_RECIPE_PENDING:
+            return {
+                ...state,
+                recipesPending: true,
+                error: null
+            }
+        case RecipeActions.GET_SINGLE_RECIPE_FAILED:
+            return {
+                ...state,
+                recipesPending: false,
+                error: "Get single recipe failed"
+            }
+
         case RecipeActions.NEW_RECIPE_SUCCESS:
             return {
                 ...state,

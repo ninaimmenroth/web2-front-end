@@ -2,7 +2,11 @@
     "backendURL": "https://localhost:8080",
 
     "backendEndpoints": {
-
+        "recipes": "/recipes",
+        "singleRecipe": "/recipes/",
+        "users": "/users",
+        "singleUser": "/users/",
+        "comments": ""
     },
 
     "frontendEndpoints": {
@@ -13,5 +17,11 @@
         "private": "/PrivatePage",
         "users": "/UsersPage",
         "admin": "/AdminPage"
+    },
+
+    "frontendSubEndpoints": {
+        "add": "/new",
+        "delete": "/del",
+        "update": "/upd"
     }
 }

@@ -33,7 +33,9 @@ class UserSessionWidget extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        
+        this.handleShowLogout = this.handleShowLogout.bind(this);
+        this.handleCloseLogout = this.handleCloseLogout.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     canLogin() {
@@ -45,16 +47,28 @@ class UserSessionWidget extends Component {
     }
 
     handleShow() {
-
-        //this.setState({show: true})
         const { showLoginDialogAction } = this.props;
         showLoginDialogAction();
     }
 
     handleClose() {
-        //this.setState({show: false})
         const { hideLoginDialogAction } = this.props;
         hideLoginDialogAction();
+    }
+
+    handleShowLogout() {
+        const { showLogoutDialogAction } = this.props;
+        showLogoutDialogAction();
+    }
+
+    handleCloseLogout() {
+        const { hideLogoutDialogAction } = this.props;
+        hideLogoutDialogAction();
+    }
+
+    handleLogout() {
+        const { logoutAction } = this.props;
+        logoutAction();
     }
 
     handleChange(e) {
@@ -73,6 +87,7 @@ class UserSessionWidget extends Component {
     render() {
         const { user, loginPending } = this.props.authReducer;
         var showDialog = this.props.authReducer.showLoginDialog;
+        var showLogoutDialog = this.props.authReducer.showLogoutDialog;
         if (showDialog === undefined) {
             showDialog = false;
         }
@@ -104,7 +119,7 @@ class UserSessionWidget extends Component {
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item > 
-                            <Link to="#" onClick={this.handleShow}>
+                            <Link to="#" onClick={this.handleShowLogout}>
                                 Logout
                             </Link> 
                         </NavDropdown.Item>
@@ -153,7 +168,16 @@ class UserSessionWidget extends Component {
                     <Modal.Footer>
                         Passwort vergessen?
                     </Modal.Footer>
-                </Modal>            </div>
+                </Modal>          
+                <Modal show={showLogoutDialog} onHide={this.handleCloseLogout}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Willst du dich wirklich ausloggen?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Button onClick={this.handleLogout}>Ja</Button>
+                    </Modal.Body>
+                </Modal>  
+            </div>
         )
     }
 }
@@ -161,7 +185,10 @@ class UserSessionWidget extends Component {
 const mapDispatchToProps = dispatch => bindActionCreators({
     showLoginDialogAction: AuthenticationActions.getShowLoginDialogAction,
     hideLoginDialogAction: AuthenticationActions.getHideLoginDialogAction,
-    authenticateUserAction: AuthenticationActions.authenticateUser
+    authenticateUserAction: AuthenticationActions.authenticateUser,
+    showLogoutDialogAction: AuthenticationActions.getShowLogoutDialogAction,
+    hideLogoutDialogAction: AuthenticationActions.getHideLogoutDialogAction,
+    logoutAction: AuthenticationActions.logout
 }, dispatch)
 
 const ConnectedUserSessionWidget = connect(mapStateToProps, mapDispatchToProps)(UserSessionWidget)
