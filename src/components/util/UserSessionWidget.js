@@ -146,14 +146,14 @@ class UserSessionWidget extends Component {
                     <Modal.Body>
                         <Form>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>User ID</Form.Label>
-                                <Form.Control type="text" placeholder="Enter username" name='username' onChange={this.handleChange} />
+                                <Form.Label>User Name</Form.Label>
+                                <Form.Control type="text" placeholder="User Name eingeben" name='username' onChange={this.handleChange} />
 
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" name='password' onChange={this.handleChange} />
+                                <Form.Control type="password" placeholder="Passwort" name='password' onChange={this.handleChange} />
                             </Form.Group>
                             <Form.Group controlId="Message">
                                 <div className="d-flex align-items-center">

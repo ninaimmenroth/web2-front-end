@@ -53,19 +53,16 @@ export function getHideRecipeDialogAction(){
 export function getNewRecipeSuccessAction(newRecipe){
     return {
         type: NEW_RECIPE_SUCCESS,
-        newRecipe: newRecipe
+        recipes: newRecipe
     }
 }
 
-//give back list of all recipes, depending on which button was selected (all/my) ? possible?
 export function getDeleteRecipeSuccessAction(recipes){
     return {
         type: DELETE_RECIPE_SUCCESS,
         recipes: recipes
     }
 }
-
-
 
 export function getGetRecipesPendingAction(){
     return {
@@ -214,6 +211,75 @@ function logout(){
     console.error('Should logout user');
 }
 
-export function createRecipe(){
-    
+export function createRecipe(token, title, preparation_time, ingredients, instructions){
+    console.log('create recipe');
+
+    return dispatch => {
+        dispatch(getNewRecipePendingAction());
+        createRecipeRequest(token, title, preparation_time, ingredients, instructions)
+            .then(
+                recipes => {
+                    const action = getNewRecipeSuccessAction(recipes);
+                    dispatch(action);
+                },
+                error => {
+                    dispatch(getNewRecipeFailedAction(error));
+                }
+            )
+            .catch(error => {
+                dispatch(getNewRecipeFailedAction(error));
+            })
+    }
+}
+
+function createRecipeRequest(token, title, preparation_time, ingredients, instructions){
+    const requestOptions= {
+        method: 'POST',
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ title, preparation_time, ingredients, instructions })
+    };
+
+    return fetch(config.backendURL + config.backendEndpoints.recipes, requestOptions)
+        .then(handleResponse)
+        .then(recipeList => {
+            return recipeList;
+        })
+}
+
+export function deleteRecipe(token, recipeID) {
+    return dispatch => {
+        dispatch(getDeleteRecipePendingAction());
+        deleteRecipeRequest(token, recipeID)
+        .then(
+            userSession => {
+                const action = getDeleteRecipeSuccessAction(userSession);
+                dispatch(action);
+            },
+            error => {
+                dispatch(getDeleteRecipeFailedAction(error));
+            }
+        )
+        .catch(error =>{
+            dispatch(getDeleteRecipeFailedAction(error));
+        })
+    }
+}
+
+function deleteRecipeRequest(token, recipeID) {
+    const requestOptions= {
+        method: 'DELETE',
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        }
+    };
+    console.log(config.backendURL + config.backendEndpoints.singleRecipe + recipeID);
+    return fetch(config.backendURL + config.backendEndpoints.singleRecipe + recipeID, requestOptions)
+        .then(handleResponse)
+        .then(userSession => {
+            return userSession;
+        })
 }

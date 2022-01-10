@@ -30,6 +30,14 @@ class PublicPage extends Component {
 
     render() {
       let shownRecipes;
+      let user = this.props.authReducer.user;
+      let isAdmin;
+      if(!user){
+        isAdmin = false;
+      } else {
+        isAdmin = user.isAdministrator;
+      }
+
 
       if(this.props.recipeReducer.recipes) {
         shownRecipes = this.props.recipeReducer.recipes;
@@ -42,7 +50,7 @@ class PublicPage extends Component {
             <div>
                 <LoginButton/>
                 <p>Public Page</p>
-                <CardList recipes={shownRecipes}/>
+                <CardList recipes={shownRecipes} isAdmin={isAdmin}/>
             </div>
         )
     }
