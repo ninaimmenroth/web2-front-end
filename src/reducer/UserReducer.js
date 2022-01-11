@@ -6,7 +6,8 @@ const initialState = {
     usersPending: false,
     userLoaded: false,
     userDeletedPending: false,
-    showUserEditDialog: false
+    showUserEditDialog: false,
+    showUserCreateDialog: false
 };
 
 function UserReducer(state = initialState, action) {
@@ -24,6 +25,18 @@ function UserReducer(state = initialState, action) {
             return {
                 ...state,
                 showUserEditDialog: false,
+                error: null
+            }
+        case UserActions.SHOW_USER_NEW_DIALOG:
+            return {
+                ...state,
+                showUserCreateDialog: true,
+                error: null
+            }
+        case UserActions.HIDE_USER_NEW_DIALOG:
+            return {
+                ...state,
+                showUserCreateDialog: false,
                 error: null
             }
         case UserActions.GET_USERS_SUCCESS:
@@ -75,8 +88,21 @@ function UserReducer(state = initialState, action) {
             return {
                 ...state,
                 usersPending: false,
-                user: action.user,
-                accessToken: action.accessToken
+                user: action.newUser
+            }
+        case UserActions.NEW_USER_PENDING:
+            return {
+                ...state,
+                usersPending: true,
+                userLoaded: false,
+                error: null
+            }
+        case UserActions.NEW_USER_FAILED:
+            return {
+                ...state,
+                usersPending: false,
+                userLoaded: false,
+                error: "Create user failed"
             }
         case UserActions.NO_USER:
             return {
@@ -87,6 +113,7 @@ function UserReducer(state = initialState, action) {
         case UserActions.EDIT_USER_SUCCESS:
             return {
                 ...state,
+                showUserEditDialog: false,
                 error: null
             }
         case UserActions.EDIT_USER_PENDING:

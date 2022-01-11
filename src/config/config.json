@@ -15,7 +15,7 @@
         "recipe": "/RecipePage",
         "comments": "/CommentsPage",
         "private": "/PrivatePage",
-        "users": "/UsersPage",
+        "profile": "/ProfilePage",
         "admin": "/AdminPage"
     },
 

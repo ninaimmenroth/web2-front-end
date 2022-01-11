@@ -3,7 +3,8 @@ import * as RecipeActions from '../actions/RecipeActions'
 const initialState = {
     recipes: [{}],
     recipe: [{}],
-    recipesPending: false
+    recipesPending: false,
+    showRecipeEditDialog: false
 };
 
 function RecipeReducer(state = initialState, action) {
@@ -11,6 +12,34 @@ function RecipeReducer(state = initialState, action) {
     console.log('Reducer: ' + action.type)
 
     switch (action.type) {
+        case RecipeActions.SHOW_RECIPE_EDIT_DIALOG:
+            return {
+                ...state,
+                showRecipeEditDialog: true,
+                error: null
+            }
+        case RecipeActions.HIDE_RECIPE_EDIT_DIALOG:
+            return {
+                ...state,
+                showRecipeEditDialog: false,
+                error: null
+            }
+        case RecipeActions.EDIT_RECIPE_SUCCESS:
+            return {
+                ...state,
+                showRecipeEditDialog: false,
+                error: null
+            }
+        case RecipeActions.EDIT_RECIPE_PENDING:
+            return {
+                ...state,
+                error: null
+            }
+        case RecipeActions.EDIT_RECIPE_FAILED:
+            return {
+                ...state,
+                error: "updating user failed"
+            }
         case RecipeActions.GET_RECIPES_SUCCESS:
             console.log('Reducer: ' + action)
             return {

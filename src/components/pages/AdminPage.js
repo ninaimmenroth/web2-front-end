@@ -20,23 +20,27 @@ class AdminPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            edit_user: {
-                userID: "",
-                userName: "",
-                isAdministrator: false
-            },
             edit_userID: "",
             edit_userName: "",
             edit_password: "",
             edit_deleted_flag: false,
             edit_isAdministrator: false,
+            new_userID: "",
+            new_userName: "",
+            new_password: "",
+            new_isAdministrator: false,
             editedValues: false
         };
         this.delUser = this.delUser.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
+
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCloseCreate = this.handleCloseCreate.bind(this);
+        this.handleShowCreate = this.handleShowCreate.bind(this);
+        this.handleSubmitCreate = this.handleSubmitCreate.bind(this);
     }
 
     async componentDidMount() {
@@ -76,6 +80,14 @@ class AdminPage extends Component {
     handleChange(e){
         const {name, value} = e.target;
         this.setState({[name]: value})
+        console.log(this.state)
+    }
+
+    handleChangeCheckbox(e){
+        const {name, checked} = e.target;
+        console.log(checked)
+        this.setState({[name]: checked})
+        console.log(this.state)
     }
 
     handleSubmit(e){
@@ -83,6 +95,26 @@ class AdminPage extends Component {
         const {edit_userID, edit_userName, edit_password, edit_deleted_flag, edit_isAdministrator} = this.state;
         const {updateUser} = this.props;
         updateUser(this.props.authReducer.accessToken, edit_userID, edit_userName, edit_password, edit_deleted_flag, edit_isAdministrator);
+        this.setState({editedValues: true});
+    }
+
+    handleShowCreate(e){
+        e.preventDefault();
+
+        const {showUserCreateDialogAction} = this.props;
+        showUserCreateDialogAction();
+    }
+
+    handleCloseCreate(){
+        const {hideUserCreateDialogAction} = this.props;
+        hideUserCreateDialogAction();
+    }
+
+    handleSubmitCreate(e){
+        e.preventDefault();
+        const {new_userID, new_userName, new_password, new_isAdministrator} = this.state;
+        const {createUser} = this.props;
+        createUser(this.props.authReducer.accessToken, new_userID, new_userName, new_password, new_isAdministrator);
         this.setState({editedValues: true});
     }
 
@@ -95,20 +127,24 @@ class AdminPage extends Component {
         if(showDialog === undefined){
             showDialog = false;
         }
+        var showCreateDialog = this.props.userReducer.showUserCreateDialog;
+        if(showCreateDialog === undefined){
+            showCreateDialog = false;
+        }
 
         let userEditCheckboxField = "";
         if(this.state.edit_isAdministrator === "true") {
             userEditCheckboxField =
                 <>
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Admin privileges" name="edit_isAdministrator" checked="checked" onChange={this.handleChange} />
+                        <Form.Check type="checkbox" label="Admin Privilegien" name="edit_isAdministrator" checked="checked" onChange={this.handleChangeCheckbox} />
                     </Form.Group><br></br>
                 </>;
         } else {
             userEditCheckboxField = 
                 <>
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Admin privileges" name="edit_isAdministrator" onChange={this.handleChange} />
+                        <Form.Check type="checkbox" label="Admin Privilegien" name="edit_isAdministrator" onChange={this.handleChangeCheckbox} />
                     </Form.Group><br></br>
                 </>;
         }
@@ -145,10 +181,40 @@ class AdminPage extends Component {
                     </Modal.Footer>
                 </Modal>
 
+                <Modal show={showCreateDialog} onHide={this.handleCloseCreate}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Erstelle neue/n Nutzer/in {this.state.edit_userID}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                        <Form.Group controlId="formBasicEmail">
+                                <Form.Label>UserID</Form.Label>
+                                <Form.Control type="text" placeholder="UserID eingeben" name="new_userID" onChange={this.handleChange} />
+                            </Form.Group><br></br>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control type="text" placeholder="Username eingeben" name="new_userName" onChange={this.handleChange} />
+                            </Form.Group><br></br>
 
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Passwort</Form.Label>
+                                <Form.Control type="password" placeholder="Passwort eingeben" name="new_password" onChange={this.handleChange} />
+                            </Form.Group><br></br>
+                            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <Form.Check type="checkbox" label="Admin Privilegien" name="new_isAdministrator" onChange={this.handleChangeCheckbox} />
+                    </Form.Group><br></br>
+                            
+                            <Button variant="primary" type="submit" onClick={this.handleSubmitCreate}>
+                                Submit
+                            </Button>
+                          </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
 
                 <h1>Admin Bereich</h1>
-                <Button>User erstellen</Button>
+                <Button onClick={this.handleShowCreate}>User erstellen</Button>
 
                 <Table hover responsive>
                     <thead>
@@ -182,7 +248,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     deleteUser: UserActions.deleteUser,
     updateUser: UserActions.updateUser,
     showUserEditDialogAction: UserActions.getShowUserEditDialogAction,
-    hideUserEditDialogAction: UserActions.getHideUserEditDialogAction
+    hideUserEditDialogAction: UserActions.getHideUserEditDialogAction,
+    showUserCreateDialogAction: UserActions.getShowUserCreateDialogAction,
+    hideUserCreateDialogAction: UserActions.getHideUserCreateDialogAction,
+    createUser: UserActions.createUser
 
 }, dispatch)
 

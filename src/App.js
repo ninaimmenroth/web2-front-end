@@ -9,6 +9,8 @@ import RecipePage from './components/pages/RecipePage';
 import RecipeCreationPage from './components/pages/RecipeCreationPage';
 import CommentsPage from './components/pages/CommentsPage';
 import AdminPage from './components/pages/AdminPage';
+import ProfilePage from './components/pages/ProfilePage';
+
 //import UsersPage from './components/UsersPage';
 import Footer from './components/util/Footer';
 import "@fontsource/ropa-sans"; // Defaults to weight 400.
@@ -30,6 +32,7 @@ class App extends Component {
         <Routes>
           <Route path={config.frontendEndpoints.private} element={<PrivatePage />} exact />
           <Route path={config.frontendEndpoints.admin} element={<AdminPage />} exact /> 
+          <Route path={config.frontendEndpoints.profile} element={<ProfilePage />} exact /> 
           
           <Route path={config.frontendEndpoints.recipeCreate} element={<RecipeCreationPage />} exact /> 
 

@@ -14,6 +14,8 @@ export const SHOW_USER_DIALOG = 'SHOW_USER_DIALOG';
 export const HIDE_USER_DIALOG = 'HIDE_USER_DIALOG';
 export const SHOW_USER_EDIT_DIALOG = 'SHOW_USER_EDIT_DIALOG';
 export const HIDE_USER_EDIT_DIALOG = 'HIDE_USER_EDIT_DIALOG';
+export const SHOW_USER_NEW_DIALOG = 'SHOW_USER_NEW_DIALOG';
+export const HIDE_USER_NEW_DIALOG = 'HIDE_USER_NEW_DIALOG';
 
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_PENDING = 'EDIT_USER_PENDING';
@@ -83,6 +85,18 @@ export function getShowUserEditDialogAction(){
 export function getHideUserEditDialogAction(){
     return {
         type: HIDE_USER_EDIT_DIALOG
+    }
+}
+
+export function getShowUserCreateDialogAction(){
+    return {
+        type: SHOW_USER_NEW_DIALOG
+    }
+}
+
+export function getHideUserCreateDialogAction(){
+    return {
+        type: HIDE_USER_NEW_DIALOG
     }
 }
 
@@ -189,12 +203,12 @@ function getAllUsersRequest(token){
         })
 }
 
-export function getSingleUser(userID){
+export function getSingleUser(token, userID){
     console.log('get one user');
 
     return dispatch => {
         dispatch(getGetSingleUserPendingAction());
-        getSingleUserRequest(userID)
+        getSingleUserRequest(token, userID)
             .then(
                 users => {
                     const action = getGetSingleUserSuccessAction(users);
@@ -210,9 +224,13 @@ export function getSingleUser(userID){
     }
 }
 
-function getSingleUserRequest(userID){
+function getSingleUserRequest(token, userID){
     const requestOptions= {
         method: 'GET',
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        }
     };
 
     return fetch(config.backendURL + config.backendEndpoints.singleUser + userID, requestOptions)
@@ -314,6 +332,44 @@ function handleResponse(response){
             return userList;
         }
     })
+}
+
+export function createUser(token, userID, userName, password, isAdministrator){
+    console.log('create user');
+
+    return dispatch => {
+        dispatch(getNewUserPendingAction());
+        createUserRequest(token, userID, userName, password, isAdministrator)
+            .then(
+                users => {
+                    const action = getNewUserSuccessAction(users);
+                    dispatch(action);
+                },
+                error => {
+                    dispatch(getNewUserFailedAction(error));
+                }
+            )
+            .catch(error => {
+                dispatch(getNewUserFailedAction(error));
+            })
+    }
+}
+
+function createUserRequest(token, userID, userName, password, isAdministrator){
+    const requestOptions= {
+        method: 'POST',
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userID, userName, password, isAdministrator })
+    };
+
+    return fetch(config.backendURL + config.backendEndpoints.users, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            return user;
+        })
 }
 
 function logout(){

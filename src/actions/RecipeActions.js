@@ -12,11 +12,35 @@ export const DELETE_RECIPE_PENDING = 'DELETE_RECIPE_PENDING';
 
 export const SHOW_RECIPE_DIALOG = 'SHOW_RECIPE_DIALOG';
 export const HIDE_RECIPE_DIALOG = 'HIDE_RECIPE_DIALOG';
+export const SHOW_RECIPE_EDIT_DIALOG = 'SHOW_RECIPE_EDIT_DIALOG';
+export const HIDE_RECIPE_EDIT_DIALOG = 'HIDE_RECIPE_EDIT_DIALOG';
+
+export const EDIT_RECIPE_SUCCESS = 'EDIT_RECIPE_SUCCESS';
+export const EDIT_RECIPE_PENDING = 'EDIT_RECIPE_PENDING';
+export const EDIT_RECIPE_FAILED = 'EDIT_RECIPE_FAILED';
 
 export const GET_RECIPES_FAILED = 'GET_RECIPES_FAILED';
 export const GET_SINGLE_RECIPE_FAILED = 'GET_SINGLE_RECIPE_FAILED';
 export const NEW_RECIPE_FAILED = 'NEW_RECIPE_FAILED';
 export const DELETE_RECIPE_FAILED = 'DELETE_RECIPE_FAILED';
+
+export function getUpdateRecipeSuccessAction(){
+    return {
+        type: EDIT_RECIPE_SUCCESS
+    }
+}
+
+export function getUpdateRecipePendingAction(){
+    return {
+        type: EDIT_RECIPE_PENDING
+    }
+}
+
+export function getUpdateRecipeFailedAction(){
+    return {
+        type: EDIT_RECIPE_FAILED
+    }
+}
 
 export function getGetRecipesSuccessAction(recipeList){
     return {
@@ -47,6 +71,18 @@ export function getShowRecipeDialogAction(){
 export function getHideRecipeDialogAction(){
     return {
         type: HIDE_RECIPE_DIALOG
+    }
+}
+
+export function getShowRecipeEditDialogAction(){
+    return {
+        type: SHOW_RECIPE_EDIT_DIALOG
+    }
+}
+
+export function getHideRecipeEditDialogAction(){
+    return {
+        type: HIDE_RECIPE_EDIT_DIALOG
     }
 }
 
@@ -281,5 +317,43 @@ function deleteRecipeRequest(token, recipeID) {
         .then(handleResponse)
         .then(userSession => {
             return userSession;
+        })
+}
+
+export function updateRecipe(token, recipeID, title, preparation_time, ingredients, instructions) {
+    return dispatch => {
+        dispatch(getUpdateRecipePendingAction());
+        updateRecipeRequest(token, recipeID, title, preparation_time, ingredients, instructions)
+        .then(
+            recipeSession => {
+                const action = getUpdateRecipeSuccessAction(recipeSession);
+                dispatch(action);
+            },
+            error => {
+                dispatch(getUpdateRecipeFailedAction(error));
+            }
+        )
+        .catch(error =>{
+            dispatch(getUpdateRecipeFailedAction(error));
+        })
+    }
+}
+
+function updateRecipeRequest(token, recipeID, title, preparation_time, ingredients, instructions) {
+    const requestOptions= {
+        method: 'PUT',
+        headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                },
+        body: JSON.stringify({ title, ingredients, instructions, preparation_time})
+    };
+    console.log("DEBUG REQUEST");
+    console.log(token);
+    console.log(config.backendURL + config.backendEndpoints.singleRecipe + recipeID);
+    return fetch(config.backendURL + config.backendEndpoints.singleRecipe + recipeID, requestOptions)
+        .then(handleResponse)
+        .then(recipeSession => {
+            return recipeSession;
         })
 }

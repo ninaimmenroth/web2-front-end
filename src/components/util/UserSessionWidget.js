@@ -113,7 +113,7 @@ class UserSessionWidget extends Component {
                             </Link> 
                         </NavDropdown.Item>
                         <NavDropdown.Item > 
-                            <Link to="#">
+                        <Link to={config.frontendEndpoints.profile}>
                                 Profil
                             </Link> 
                         </NavDropdown.Item>
