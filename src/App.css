@@ -51,3 +51,19 @@
 .display-none {
   display: none;
 }
+
+.cuvega-name,
+.topmenu-new-recipe,
+.topmenu-signup,
+.search-form {
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  .cuvega-name,
+  .topmenu-new-recipe,
+  .topmenu-signup,
+  .search-form {
+    display: none !important;
+  }
+}

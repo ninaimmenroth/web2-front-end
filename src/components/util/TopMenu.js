@@ -23,12 +23,12 @@ class TopMenu extends Component {
         let createRec;
         if (user) 
         {
-            createRec = <Link to={config.frontendEndpoints.recipeCreate} className="active">Neues Rezept</Link>
+            createRec = <Link to={config.frontendEndpoints.recipeCreate} className="active topmenu-new-recipe">Neues Rezept</Link>
 
         }
         else
         {
-            createRec= <Link to={config.frontendEndpoints.home} className="active">Signup</Link>
+            createRec = <Link to={config.frontendEndpoints.home} className="active topmenu-signup">Signup</Link>
         }
 
         return (

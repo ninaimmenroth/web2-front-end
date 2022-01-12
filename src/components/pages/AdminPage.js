@@ -49,10 +49,10 @@ class AdminPage extends Component {
     };
 
     async componentDidUpdate() {
-          if(this.state.editedValues) {
-            this.setState({editedValues: false});
+        if(this.state.editedValues && !this.props.userReducer.usersPending && this.props.userReducer.userLoaded) {
             const { getGetUsersAction } = this.props;
             await getGetUsersAction(this.props.authReducer.accessToken);
+            this.setState({editedValues: false});
         }
     }
 

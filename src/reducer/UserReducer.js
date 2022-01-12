@@ -5,7 +5,6 @@ const initialState = {
     user: [{}],
     usersPending: false,
     userLoaded: false,
-    userDeletedPending: false,
     showUserEditDialog: false,
     showUserCreateDialog: false
 };
@@ -129,19 +128,19 @@ function UserReducer(state = initialState, action) {
         case UserActions.DELETE_USER_SUCCESS:
             return {
                 ...state,
-                userDeletedPending: false,
+                usersPending: false,
                 error: null
             }
         case UserActions.DELETE_USER_PENDING:
             return {
                 ...state,
-                userDeletedPending: true,
+                usersPending: true,
                 error: null
             }
         case UserActions.DELETE_USER_FAILED:
             return {
                 ...state,
-                userDeletedPending: false,
+                usersPending: false,
                 error: "deleting user failed"
             }
         default:
