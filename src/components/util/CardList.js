@@ -15,9 +15,9 @@ function CardList(props) {
 
     return (
         <div className={style.recipes}>
-            {(!recipes) ? "NO ENTRY !" : recipes.map(recipes => (
+            {(!recipes) ? "NO ENTRY !" : recipes.map((recipes, index) => (
               <RecipeCard 
-                key={recipes._id}
+                key={index}
                 rID={recipes._id} 
                 title={recipes.title} 
                 preparation_time={recipes.preparation_time}

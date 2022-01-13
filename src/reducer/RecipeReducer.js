@@ -99,24 +99,24 @@ function RecipeReducer(state = initialState, action) {
                 recipesPending: false,
                 error: "Create recipe failed"
             }
-            case RecipeActions.DELETE_RECIPE_SUCCESS:
-                return {
-                    ...state,
-                    recipe: action.recipes,
-                    recipesPending: false
-                }
-            case RecipeActions.DELETE_RECIPE_PENDING:
-                return {
-                    ...state,
-                    recipesPending: true,
-                    error: null
-                }
-            case RecipeActions.DELETE_RECIPE_FAILED:
-                return {
-                    ...state,
-                    recipesPending: false,
-                    error: "Delete recipe failed"
-                }
+        case RecipeActions.DELETE_RECIPE_SUCCESS:
+            return {
+                ...state,
+                recipe: action.recipes,
+                recipesPending: false
+            }
+        case RecipeActions.DELETE_RECIPE_PENDING:
+            return {
+                ...state,
+                recipesPending: true,
+                error: null
+            }
+        case RecipeActions.DELETE_RECIPE_FAILED:
+            return {
+                ...state,
+                recipesPending: false,
+                error: "Delete recipe failed"
+            }
         case RecipeActions.NO_RECIPE:
             return {
                 ...state,

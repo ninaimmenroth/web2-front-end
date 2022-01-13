@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import CardList from '../util/CardList'
+import CardList from '../util/CardList';
+import CommentSection from '../util/CommentSection';
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -144,6 +145,7 @@ class RecipePage extends Component {
         console.log(JSON.stringify(recipe));
 
         shownRecipes = (
+          <div>
           <div className={style.recipe}>
             <h1>{recipe.title}</h1>
             <h2>Zutaten:</h2>
@@ -170,6 +172,9 @@ class RecipePage extends Component {
             {updateButton}
 
           </div>
+          <CommentSection />
+          </div>
+
         );
       }
 

@@ -7,7 +7,6 @@ import PublicPage from './components/pages/PublicPage';
 import PrivatePage from './components/pages/PrivatePage';
 import RecipePage from './components/pages/RecipePage';
 import RecipeCreationPage from './components/pages/RecipeCreationPage';
-import CommentsPage from './components/pages/CommentsPage';
 import AdminPage from './components/pages/AdminPage';
 import ProfilePage from './components/pages/ProfilePage';
 
@@ -40,7 +39,6 @@ class App extends Component {
             <Route path={config.frontendEndpoints.recipe + config.frontendSubEndpoints.add} element={<RecipeCreationPage />} exact /> 
             <Route path={config.frontendEndpoints.recipe + "/:recipeID"} element={<RecipePage />} exact /> 
           </Route> 
-          <Route path={config.frontendEndpoints.comments} element={<CommentsPage />} exact />
           <Route path="*" element={<PrivatePage />} />
         </Routes>
     } else {
@@ -50,7 +48,6 @@ class App extends Component {
           <Route path={config.frontendEndpoints.recipe} element={<RecipePage />} exact>
             <Route path={config.frontendEndpoints.recipe + "/:recipeID"} element={<RecipePage />} exact /> 
           </Route> 
-          <Route path={config.frontendEndpoints.comments} element={<CommentsPage />} exact />
           <Route path="*" element={<PublicPage />} />
         </Routes>
     }
