@@ -8,12 +8,11 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as AuthenticationActions from '../../actions/AuthenticationActions';
 import { bindActionCreators } from "@reduxjs/toolkit";
 
-//import style from '../styles/usersessionwidget.module.css';
-//import style from "../styles/usersessionwidget.module.css";
+import style from '../../styles/usersessionwidget.module.css';
 
 
 const mapStateToProps = state => {
@@ -28,7 +27,7 @@ class UserSessionWidget extends Component {
             username: '',
             password: ''
         };
-        
+
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -94,36 +93,30 @@ class UserSessionWidget extends Component {
 
         let loginButton;
         if (this.canLogin()) {
-            loginButton = <Button variant="primary" type="submit" onClick={this.handleSubmit}>Login</Button>
+            loginButton = <Button type="submit" onClick={this.handleSubmit}>Login</Button>
         } else {
-            loginButton = <Button variant="primary" type="submit" disabled>Login</Button>
+            loginButton = <Button type="submit" disabled>Login</Button>
         }
 
         let widgetButton;
         if (user) {
             const navIcon = <img src={profilePic} width="50" className="rounded-circle z-depth-0" alt="avatar" />
-            const userName = user.username;
+            const isAdmin = user.isAdministrator;
             widgetButton =
                 (<div>
                     <Nav variant="success" activeKey="1">
-                    <NavDropdown title={navIcon} id="my-top-menu-drop-down">
-                        <NavDropdown.Item > 
-                            <Link to={config.frontendEndpoints.admin}>
+                        <NavDropdown title={navIcon} id="my-top-menu-drop-down">
+                            {isAdmin && <NavDropdown.Item as={Link} to={config.frontendEndpoints.admin}>
                                 Adminbereich
-                            </Link> 
-                        </NavDropdown.Item>
-                        <NavDropdown.Item > 
-                        <Link to={config.frontendEndpoints.profile}>
+                            </NavDropdown.Item>}
+                            <NavDropdown.Item as={Link} to={config.frontendEndpoints.profile}>
                                 Profil
-                            </Link> 
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item > 
-                            <Link to="#" onClick={this.handleShowLogout}>
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to="#" onClick={this.handleShowLogout}>
                                 Logout
-                            </Link> 
-                        </NavDropdown.Item>
-                    </NavDropdown>
+                            </NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                 </div>);
         }
@@ -141,18 +134,18 @@ class UserSessionWidget extends Component {
 
                 <Modal show={showDialog} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Login</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>User Name</Form.Label>
-                                <Form.Control type="text" placeholder="User Name eingeben" name='username' onChange={this.handleChange} />
+                                <Form.Label>User ID</Form.Label>
+                                <Form.Control type="text" placeholder="User ID eingeben" name='username' onChange={this.handleChange} />
 
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
+                                <Form.Label>Passwort</Form.Label>
                                 <Form.Control type="password" placeholder="Passwort" name='password' onChange={this.handleChange} />
                             </Form.Group>
                             <Form.Group controlId="Message">
@@ -168,7 +161,7 @@ class UserSessionWidget extends Component {
                     <Modal.Footer>
                         Passwort vergessen?
                     </Modal.Footer>
-                </Modal>          
+                </Modal>
                 <Modal show={showLogoutDialog} onHide={this.handleCloseLogout}>
                     <Modal.Header closeButton>
                         <Modal.Title>Willst du dich wirklich ausloggen?</Modal.Title>
@@ -176,7 +169,7 @@ class UserSessionWidget extends Component {
                     <Modal.Body>
                         <Button onClick={this.handleLogout}>Ja</Button>
                     </Modal.Body>
-                </Modal>  
+                </Modal>
             </div>
         )
     }

@@ -28,8 +28,7 @@ class AdminPage extends Component {
             new_userID: "",
             new_userName: "",
             new_password: "",
-            new_isAdministrator: false,
-            editedValues: false
+            new_isAdministrator: false
         };
         this.delUser = this.delUser.bind(this);
         this.handleShow = this.handleShow.bind(this);
@@ -41,6 +40,8 @@ class AdminPage extends Component {
         this.handleCloseCreate = this.handleCloseCreate.bind(this);
         this.handleShowCreate = this.handleShowCreate.bind(this);
         this.handleSubmitCreate = this.handleSubmitCreate.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this);
+
     }
 
     async componentDidMount() {
@@ -48,33 +49,32 @@ class AdminPage extends Component {
         await getGetUsersAction(this.props.authReducer.accessToken);
     };
 
-    async componentDidUpdate() {
-        if(this.state.editedValues && !this.props.userReducer.usersPending && this.props.userReducer.userLoaded) {
-            const { getGetUsersAction } = this.props;
-            await getGetUsersAction(this.props.authReducer.accessToken);
-            this.setState({editedValues: false});
-        }
-    }
-
-    delUser(e) {
-        e.preventDefault();
-        const {deleteUser} = this.props;
-        deleteUser(this.props.authReducer.accessToken, e.target.getAttribute("data-value"));
-        this.setState({editedValues: true});
-    }
-
     handleShow(e){
         e.preventDefault();
         this.setState({
             edit_userID: e.target.getAttribute("data-value1"),
-            edit_isAdministrator: e.target.getAttribute("data-value2")
+            edit_isAdministrator: e.target.getAttribute("data-value2"),
+            edit_userName: e.target.getAttribute("data-value3")
         })
         const {showUserEditDialogAction} = this.props;
         showUserEditDialogAction();
     }
+
     handleClose(){
         const {hideUserEditDialogAction} = this.props;
         hideUserEditDialogAction();
+    }
+
+    async handleRefresh(){
+        const {getGetUsersAction} = this.props;
+        await getGetUsersAction(this.props.authReducer.accessToken);
+    }
+    
+    async delUser(e) {
+        e.preventDefault();
+        const {deleteUser, refreshUserAction} = this.props;
+        await deleteUser(this.props.authReducer.accessToken, e.target.getAttribute("data-value"));
+        this.handleRefresh();
     }
 
     handleChange(e){
@@ -90,12 +90,12 @@ class AdminPage extends Component {
         console.log(this.state)
     }
 
-    handleSubmit(e){
+    async handleSubmit(e){
         e.preventDefault();
         const {edit_userID, edit_userName, edit_password, edit_deleted_flag, edit_isAdministrator} = this.state;
         const {updateUser} = this.props;
-        updateUser(this.props.authReducer.accessToken, edit_userID, edit_userName, edit_password, edit_deleted_flag, edit_isAdministrator);
-        this.setState({editedValues: true});
+        await updateUser(this.props.authReducer.accessToken, edit_userID, edit_userName, edit_password, edit_deleted_flag, edit_isAdministrator);
+        this.handleRefresh();
     }
 
     handleShowCreate(e){
@@ -110,15 +110,16 @@ class AdminPage extends Component {
         hideUserCreateDialogAction();
     }
 
-    handleSubmitCreate(e){
+    async handleSubmitCreate(e){
         e.preventDefault();
         const {new_userID, new_userName, new_password, new_isAdministrator} = this.state;
         const {createUser} = this.props;
-        createUser(this.props.authReducer.accessToken, new_userID, new_userName, new_password, new_isAdministrator);
-        this.setState({editedValues: true});
+        await createUser(this.props.authReducer.accessToken, new_userID, new_userName, new_password, new_isAdministrator);
+        this.handleRefresh();
     }
 
     render() {
+        const isAdmin = this.props.authReducer.user.isAdministrator;
         let shownUsers = this.props.userReducer.users;
         if (shownUsers === undefined) {
             shownUsers = {};
@@ -150,10 +151,11 @@ class AdminPage extends Component {
         }
 
         return (
-            <div>
+            <>
+            {isAdmin ? (<div>
                 <Modal show={showDialog} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Bearbeite nutzer {this.state.edit_userID}</Modal.Title>
+                        <Modal.Title>Bearbeite Nutzer/in {this.state.edit_userID}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -213,7 +215,7 @@ class AdminPage extends Component {
                     </Modal.Footer>
                 </Modal>
 
-                <h1>Admin Bereich</h1>
+                <h1>Admin Bereich {JSON.stringify(this.props.userReducer.refresh)}</h1>
                 <Button onClick={this.handleShowCreate}>User erstellen</Button>
 
                 <Table hover responsive>
@@ -232,13 +234,15 @@ class AdminPage extends Component {
                                 <td>{users.userName}</td>
                                 <td>{users.isAdministrator ? "Ja" : "Nein"}</td>
                                 <td>{users.deleted_flag ? "Ja" : "Nein"}</td>
-                                <td><Link to="#" data-value1={users.userID} data-value2={users.isAdministrator} className="btn btn-primary" onClick={this.handleShow}>Bearbeiten</Link></td>
+                                <td><Link to="#" data-value1={users.userID} data-value2={users.isAdministrator} data-value3={users.userName} className="btn btn-primary" onClick={this.handleShow}>Bearbeiten</Link></td>
                                 <td><Link to="#" data-value={users.userID} className="btn btn-primary" onClick={this.delUser}>Löschen</Link></td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
-            </div>
+            </div>) : <p>Du darfst hier nicht sein!</p>
+            }
+            </>
         )
     }
 }
@@ -252,7 +256,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     showUserCreateDialogAction: UserActions.getShowUserCreateDialogAction,
     hideUserCreateDialogAction: UserActions.getHideUserCreateDialogAction,
     createUser: UserActions.createUser
-
 }, dispatch)
 
 const ConnectedAdminPage = connect(mapStateToProps, mapDispatchToProps)(AdminPage)

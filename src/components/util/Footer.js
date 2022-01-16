@@ -1,44 +1,22 @@
-
-import React, {Component} from "react";
+import React, { Component } from "react";
 import style from "../../styles/footer.module.css";
+import logo from '../../pics/logo.svg';
+import cuvega from '../../pics/Cuvega.svg';
 
 class Footer extends Component {
 
-    render(){
-        return(
-            <div className={style.footer}>
-                Cuvega, 2021
-            </div>
-        )
-    }
-}
-
-export default Footer
-/*
-
-import React, { Component } from 'react'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import style from "../../styles/footer.module.css";
-
-class Footer extends Component {
-  render () {
+  render() {
     return (
-      <div>
-        <Container fluid>
-          <Row>
-            <Col>
-              <div className={style.footer}>
-                <div className={style.footertext}>© Cuvega, 2021</div> 
-              </div>
-            </Col>
-          </Row>
-        </Container>
+      <div className={style.footer}>
+        <div>
+          <img className="logo-footer" src={logo} alt="cuvega-logo" />
+          <img className="cuvega-name-footer" src={cuvega} alt="cuvega-name" />
+        </div>
+        
+        <p>Cuvega, 2021</p>
       </div>
     )
   }
 }
 
 export default Footer
-*/

@@ -34,6 +34,7 @@ class RecipePage extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.canSubmit = this.canSubmit.bind(this);
   }
 
   async componentDidMount() {
@@ -91,7 +92,7 @@ class RecipePage extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { title, preparation_time, ingredients, instructions} = this.state;
+    const { title, preparation_time, ingredients, instructions } = this.state;
     const { updateRecipe } = this.props;
     let id = this.props.recipeReducer.recipe._id;
     console.log("RecipeID: " + id);
@@ -136,43 +137,46 @@ class RecipePage extends Component {
         if (!user) {
           delButton = <></>
           updateButton = <></>
-        } else if (user.userID === recipe.authorID || isAdmin) {
-          delButton = <Button className={style.btn} onClick={this.delRecipe} >Löschen</Button>
-          updateButton = <Button className={style.btn} onClick={this.handleShow} >Updaten</Button>
-
+        } else {
+          if (user.userID === recipe.authorID || isAdmin) {
+            delButton = <Button className={style.btn} onClick={this.delRecipe} >Löschen</Button>
+          }
+          if (user.userID === recipe.authorID) {
+            updateButton = <Button className={style.btn} onClick={this.handleShow} >Updaten</Button>
+          }
         }
 
         console.log(JSON.stringify(recipe));
 
         shownRecipes = (
           <div>
-          <div className={style.recipe}>
-            <h1>{recipe.title}</h1>
-            <h2>Zutaten:</h2>
-            <ul>
-              {recipe.ingredients.split('\n').map((ingr, index) => (
-                <li key={index}>{ingr}</li>
-              ))}
-            </ul>
-            <h2>Anweisungen:</h2>
-            <ul>
-              {recipe.instructions.split('\n').map((instr, index) => (
-                <li key={index}>{instr}</li>
-              ))}
-            </ul>
-            <div>
-              <h2>Zubereitungszeit: </h2>
-              <p>{recipe.preparation_time}</p>
-            </div>
-            <div>
-              <h2>Autor: </h2>
-              <p>{recipe.authorID}</p>
-            </div>
-            {delButton}
-            {updateButton}
+            <div className={style.recipe}>
+              <h1>{recipe.title}</h1>
+              <h2>Zutaten:</h2>
+              <ul>
+                {recipe.ingredients.split('\n').map((ingr, index) => (
+                  <li key={index}>{ingr}</li>
+                ))}
+              </ul>
+              <h2>Anweisungen:</h2>
+              <ul>
+                {recipe.instructions.split('\n').map((instr, index) => (
+                  <li key={index}>{instr}</li>
+                ))}
+              </ul>
+              <div>
+                <h2>Zubereitungszeit: </h2>
+                <p>{recipe.preparation_time}</p>
+              </div>
+              <div>
+                <h2>Autor: </h2>
+                <p>{recipe.authorID}</p>
+              </div>
+              {delButton}
+              {updateButton}
 
-          </div>
-          <CommentSection />
+            </div>
+            <CommentSection />
           </div>
 
         );

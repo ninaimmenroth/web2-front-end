@@ -81,8 +81,7 @@ class CommentPage extends Component {
     handleShowCreate(e) {
         e.preventDefault();
         this.setState({
-            edit_text: e.target.getAttribute("data-value2"),
-            edit_id: e.target.getAttribute("data-value1")
+            new_text: "",
         })
         const { showCommentCreateDialogAction } = this.props;
         showCommentCreateDialogAction();
@@ -164,7 +163,7 @@ class CommentPage extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {comments.map((comment) => (
+                            {comments.slice(0).reverse().map((comment) => (
                                 <tr key={comment._id}>
                                     <td>{comment.authorID}</td>
                                     <td>{(new Date(comment.createdAt)).toLocaleString()}</td>

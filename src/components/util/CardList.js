@@ -4,7 +4,6 @@ import RecipeCard from "./RecipeCard";
 
 function CardList(props) {
     const recipes = props.recipes;
-    const isAdmin = props.isAdmin;
 
     console.log("CARDLIST: ");
     console.log(recipes);
@@ -21,7 +20,6 @@ function CardList(props) {
                 rID={recipes._id} 
                 title={recipes.title} 
                 preparation_time={recipes.preparation_time}
-                isAdmin={isAdmin}
               />
             ))}
         </div>
