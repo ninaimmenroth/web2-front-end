@@ -103,7 +103,7 @@ class ProfilePage extends Component {
         }
 
         return (
-            <div>
+            <div style={{margin: '5px'}}>
                 <Modal show={showDialog} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Bearbeite deine Daten, {shownUser.userID}</Modal.Title>
@@ -132,8 +132,8 @@ class ProfilePage extends Component {
                 <h1>Profil</h1>
                 {shownUser && (
                     <div>
-                    <h2>Username</h2>
-                    <p>{shownUser.userName}</p>
+                    <h2>{shownUser.userID}</h2>
+                    <p>Username: {shownUser.userName}</p>
                     <p>Ist dabei seit {date.toLocaleString().split(',')[0]}.</p>
                     <p>Zuletzt aktualisiert {dateup.toLocaleString()}.</p>
                     </div>

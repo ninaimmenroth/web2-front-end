@@ -158,7 +158,10 @@ class CommentPage extends Component {
                             <tr>
                                 <th>Autor</th>
                                 <th>Datum</th>
-                                <th colSpan={4}>Kommentar</th>
+                                <th>Kommentar</th>
+                                <th> </th>
+                                <th> </th>
+                                <th> </th>
                                 <th>Aktionen</th>
                             </tr>
                         </thead>
@@ -200,7 +203,7 @@ if (this.canSubmitCreate()) {
 }
 
 return (
-    <div>
+    <div style={{margin: '5px'}}>
         <Modal show={showEditDialog} onHide={this.handleCloseEdit}>
             <Modal.Header closeButton>
                 <Modal.Title>Bearbeite Kommentar</Modal.Title>

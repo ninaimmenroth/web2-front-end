@@ -47,9 +47,10 @@ class PublicPage extends Component {
       console.log(shownRecipes);
 
         return (
-            <div>
+            <div style={{margin: '5px'}}>
+                <h4>Du bist noch nicht eingeloggt.</h4>
+                <h4>Logge dich schnell ein oder registriere dich, um die volle Funktionalität von Cuvega genießen zu können!</h4>
                 <LoginButton/>
-                <p>Public Page</p>
                 <CardList recipes={shownRecipes} isAdmin={isAdmin}/>
             </div>
         )

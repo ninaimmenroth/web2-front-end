@@ -151,7 +151,7 @@ class AdminPage extends Component {
         }
 
         return (
-            <>
+            <div style={{margin: '5px'}}>
             {isAdmin ? (<div>
                 <Modal show={showDialog} onHide={this.handleClose}>
                     <Modal.Header closeButton>
@@ -215,7 +215,7 @@ class AdminPage extends Component {
                     </Modal.Footer>
                 </Modal>
 
-                <h1>Admin Bereich {JSON.stringify(this.props.userReducer.refresh)}</h1>
+                <h1>Admin Bereich</h1>
                 <Button onClick={this.handleShowCreate}>User erstellen</Button>
 
                 <Table hover responsive>
@@ -242,7 +242,7 @@ class AdminPage extends Component {
                 </Table>
             </div>) : <p>Du darfst hier nicht sein!</p>
             }
-            </>
+            </div>
         )
     }
 }

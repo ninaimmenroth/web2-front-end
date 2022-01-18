@@ -152,24 +152,24 @@ class RecipePage extends Component {
           <div>
             <div className={style.recipe}>
               <h1>{recipe.title}</h1>
-              <h2>Zutaten:</h2>
+              <h3>Zutaten:</h3>
               <ul>
                 {recipe.ingredients.split('\n').map((ingr, index) => (
                   <li key={index}>{ingr}</li>
                 ))}
               </ul>
-              <h2>Anweisungen:</h2>
+              <h3>Anweisungen:</h3>
               <ul>
                 {recipe.instructions.split('\n').map((instr, index) => (
                   <li key={index}>{instr}</li>
                 ))}
               </ul>
               <div>
-                <h2>Zubereitungszeit: </h2>
-                <p>{recipe.preparation_time}</p>
+                <h3>Zubereitungszeit: </h3>
+                <p>{recipe.preparation_time} Minuten</p>
               </div>
               <div>
-                <h2>Autor: </h2>
+                <h3>Autor: </h3>
                 <p>{recipe.authorID}</p>
               </div>
               {delButton}
@@ -224,7 +224,6 @@ class RecipePage extends Component {
           </Modal.Footer>
         </Modal>
 
-        <p>Recipe Page</p>
         {shownRecipes}
       </div>
     )

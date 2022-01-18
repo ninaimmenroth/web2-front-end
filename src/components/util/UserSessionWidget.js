@@ -104,13 +104,30 @@ class UserSessionWidget extends Component {
             const isAdmin = user.isAdministrator;
             widgetButton =
                 (<div>
-                    <Nav variant="success" activeKey="1">
+                    <Nav className={style.widgetdesktop} variant="success" activeKey="1">
                         <NavDropdown title={navIcon} id="my-top-menu-drop-down">
                             {isAdmin && <NavDropdown.Item as={Link} to={config.frontendEndpoints.admin}>
                                 Adminbereich
                             </NavDropdown.Item>}
                             <NavDropdown.Item as={Link} to={config.frontendEndpoints.profile}>
                                 Profil
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to="#" onClick={this.handleShowLogout}>
+                                Logout
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                    <Nav className={style.widgetscreen} variant="success" activeKey="1">
+                        <NavDropdown title={navIcon} id="my-top-menu-drop-down">
+                            {isAdmin && <NavDropdown.Item as={Link} to={config.frontendEndpoints.admin}>
+                                Adminbereich
+                            </NavDropdown.Item>}
+                            <NavDropdown.Item as={Link} to={config.frontendEndpoints.profile}>
+                                Profil
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={config.frontendEndpoints.recipeCreate}>
+                                Neues Rezept
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item as={Link} to="#" onClick={this.handleShowLogout}>

@@ -1,6 +1,7 @@
 .App{
   min-height: 100vh;
   font-family: "Ropa Sans";
+  font-size: large;
   color: rgb(16, 12, 5);
 }
 
@@ -56,7 +57,8 @@
   border: 1px solid rgb(16, 12, 5);
 }
 
-.btn-primary {
+.btn-primary,
+.btn-outline-success {
   border: 1px solid rgb(16, 12, 5);
   color:rgb(16, 12, 5);
   background-color: #F8EEE5;
@@ -72,21 +74,42 @@
   background-color: #D4AC9C;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-outline-success:hover {
   border: 1px solid rgb(16, 12, 5);
   background-color: #7D5730;
 }
 
-.btn-check:focus+.btn-primary, .btn-primary:focus {
+a svg:hover {
+  color: white;
+}
+
+.btn-check:focus+.btn-primary, 
+.btn-primary:focus,
+.btn-outline-success:focus {
   color: #fff;
   background-color: #7D5730;
   border-color: rgb(16, 12, 5);
   box-shadow: 0 0 0 .25rem rgba(49,34,19,.3);
 }
 
+.form-control:focus {
+  border-color: rgb(16, 12, 5);
+  box-shadow: 0 0 0 .25rem rgba(49,34,19,.3);
+}
+
+.nav-link:focus {
+  color: rgb(16, 12, 5);
+}
+
 .modal-header .btn-close {
   color: rgb(16, 12, 5);
   opacity: 0.7;
+}
+
+.form-control {
+  color:rgb(16, 12, 5);
+
 }
 
 .cuvega-name,

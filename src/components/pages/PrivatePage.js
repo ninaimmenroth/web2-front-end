@@ -25,7 +25,6 @@ class PrivatePage extends Component {
 
         return (
             <div>
-                <p>Private Page</p>
                 <CardList recipes={shownRecipes} />
             </div>
         )

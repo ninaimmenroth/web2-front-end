@@ -61,7 +61,7 @@ class RecipeCreationPage extends Component {
         }
 
         return (
-            <div>
+            <div style={{margin: '5px'}}>
                 <h1>Rezept erstellen</h1>
                 <Form>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
