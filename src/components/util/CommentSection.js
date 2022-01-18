@@ -3,7 +3,6 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect } from 'react-redux';
 import { useParams } from "react-router-dom";
 import * as CommentActions from '../../actions/CommentActions'
-//import style from "../../styles/commentpage.module.css";
 import Button from 'react-bootstrap/Button'
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -25,8 +24,7 @@ class CommentPage extends Component {
             passedQuery: "",
             edit_text: "",
             new_text: "",
-            edit_id: "",
-            refresh: false
+            edit_id: ""
         };
         this.delComment = this.delComment.bind(this);
         this.handleShowEdit = this.handleShowEdit.bind(this);
@@ -38,6 +36,7 @@ class CommentPage extends Component {
         this.handleSubmitCreate = this.handleSubmitCreate.bind(this);
         this.canSubmitCreate = this.canSubmitCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this);
     }
 
     async componentDidMount() {
@@ -46,12 +45,17 @@ class CommentPage extends Component {
 
     }
 
+    async handleRefresh(){
+        const { getCommentsAction } = this.props;
+        await getCommentsAction(this.props.params.recipeID);
+    }
+
     delComment(e) {
         e.preventDefault();
         const { deleteComment } = this.props;
         const id = e.target.getAttribute("data-value");
         deleteComment(this.props.authReducer.accessToken, id);
-        //this.setState({editedValues: true});
+        this.handleRefresh();
     }
 
     handleShowEdit(e) {
@@ -74,8 +78,8 @@ class CommentPage extends Component {
         const { edit_text, edit_id } = this.state;
         const { updateComment } = this.props;
         let id = edit_id;
-        console.log("CommentID: " + id);
         updateComment(this.props.authReducer.accessToken, id, edit_text);
+        this.handleRefresh();
     }
 
     handleShowCreate(e) {
@@ -97,6 +101,7 @@ class CommentPage extends Component {
         const { new_text } = this.state;
         const { createComment } = this.props;
         createComment(this.props.authReducer.accessToken, this.props.params.recipeID, new_text);
+        this.handleRefresh();
     }
 
     canSubmitEdit() {
@@ -118,10 +123,8 @@ class CommentPage extends Component {
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value })
-        console.log(this.state)
     }
     render() {
-        let recipeID = this.props.params.recipeID;
         let user = this.props.authReducer.user;
         let isAdmin;
         if (!user) {
@@ -141,10 +144,6 @@ class CommentPage extends Component {
         if (showCreateDialog === undefined) {
             showCreateDialog = false;
         }
-
-
-        console.log("DEBUG CommentSection: ");
-        console.log(this.props.commentReducer.comments);
 
         let comments = this.props.commentReducer.comments;
         let shownComments;
@@ -173,7 +172,7 @@ class CommentPage extends Component {
                                     <td colSpan={4}>{comment.text}</td>
                                     <td>
                                         { (comment.authorID === user.userID) && <Link to="#" data-value1={comment._id} data-value2={comment.text} className="btn btn-primary" onClick={this.handleShowEdit}>Bearbeiten</Link>}
-                                        { (user.userID === comment.authorID || isAdmin) && <Link to="#" data-value={comment._id} className="btn btn-primary" onClick={this.delComment}>Löschen</Link>}
+                                        { (user.userID === comment.authorID || isAdmin) && <Link style={{margin: '0px 5px'}} to="#" data-value={comment._id} className="btn btn-primary" onClick={this.delComment}>Löschen</Link>}
                                     </td>
                                     
                                 </tr>
@@ -181,9 +180,6 @@ class CommentPage extends Component {
                         </tbody>
                     </Table>
                 )
-
-                
-            console.log(JSON.stringify(comments));
 
         }
 

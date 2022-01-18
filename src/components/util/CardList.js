@@ -3,27 +3,24 @@ import style from "../../styles/cardlist.module.css";
 import RecipeCard from "./RecipeCard";
 
 function CardList(props) {
-    const recipes = props.recipes;
-
-    console.log("CARDLIST: ");
-    console.log(recipes);
+  let recipes = props.recipes;
 
   if (recipes === undefined) {
     recipes = false;
   }
 
-    return (
-        <div className={style.recipes}>
-            {(!recipes) ? "NO ENTRY !" : recipes.map((recipes, index) => (
-              <RecipeCard 
-                key={index}
-                rID={recipes._id} 
-                title={recipes.title} 
-                preparation_time={recipes.preparation_time}
-              />
-            ))}
-        </div>
-    );
+  return (
+    <div className={style.recipes}>
+      {(!recipes) ? "NO ENTRY !" : recipes.map((recipes, index) => (
+        <RecipeCard
+          key={index}
+          rID={recipes._id}
+          title={recipes.title}
+          preparation_time={recipes.preparation_time}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default CardList;

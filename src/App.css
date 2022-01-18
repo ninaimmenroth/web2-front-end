@@ -122,6 +122,10 @@ a svg:hover {
   display: block;
 }
 
+.profileblock {
+  height: 25vh;
+}
+
 @media screen and (max-width: 600px) {
   .cuvega-name,
   .topmenu-new-recipe,

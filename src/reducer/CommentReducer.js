@@ -10,8 +10,6 @@ const initialState = {
 
 function CommentReducer(state = initialState, action) {
 
-    console.log('Reducer: ' + action.type)
-
     switch (action.type) {
         case CommentActions.SHOW_COMMENT_EDIT_DIALOG:
             return {
@@ -54,7 +52,6 @@ function CommentReducer(state = initialState, action) {
                 error: "updating user failed"
             }
         case CommentActions.GET_COMMENTS_SUCCESS:
-            console.log('Reducer: ' + action)
             return {
                 ...state,
                 comments: action.comments,
@@ -75,7 +72,6 @@ function CommentReducer(state = initialState, action) {
             }
 
         case CommentActions.GET_SINGLE_COMMENT_SUCCESS:
-            console.log('Reducer gSRS: ' + action)
             return {
                 ...state,
                 comment: action.comment,

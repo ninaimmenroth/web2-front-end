@@ -63,7 +63,6 @@ export function getAuthenticateUserErrorAction(error){
 }
 
 export function authenticateUser(userID, password){
-    console.log('Authenticate');
 
     return dispatch => {
         dispatch(getAuthenticateUserPendingAction());
@@ -81,20 +80,6 @@ export function authenticateUser(userID, password){
                 dispatch(getAuthenticateUserErrorAction(error));
             })
     }
-}
-
-function login(userID, password){
-    const requestOptions= {
-        method: 'POST',
-        headers: {'Content-type': 'application/json'},
-        body: JSON.stringify({userID, password})
-    };
-
-    return fetch(config.backendURL + '/auth/login', requestOptions)
-        .then(handleResponse)
-        .then(userSession => {
-            return userSession;
-        })
 }
 
 function loginBasic(userID, password){
@@ -115,8 +100,7 @@ function handleResponse(response){
     const authorizationHeader = response.headers.get('Authorization');
 
     return response.text().then(text => {
-        console.log('receive results: '+ authorizationHeader);
-
+        
         const data = text && JSON.parse(text);
         var token;
         if(authorizationHeader){

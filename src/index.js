@@ -11,7 +11,6 @@ import './index.css';
 import App from './App';
 
 import RootReducer from './reducer/RootReducer';
-//import RecipeReducer from './reducer/RecipeReducer';
 
 const initialState = {};
 

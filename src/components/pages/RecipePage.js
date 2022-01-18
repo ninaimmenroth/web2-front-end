@@ -47,24 +47,10 @@ class RecipePage extends Component {
     }
   }
 
-  async componentDidUpdate() {
-    /*        this.setState({ passedQuery: this.props.match.params.recipeID });
-            var tempAssign = this.props.match.params.recipeID;
-    //        const {postValuesUpdatedAction} = this.props;
-    //        postValuesUpdatedAction();
-    
-            if(this.props.match.params.recipeID.match(/^[a-z0-9]+$/)) {
-    //            const {postGetAction} = this.props;
-    //            await postGetAction(tempAssign);
-            }
-            */
-  }
-
   delRecipe(e) {
     e.preventDefault();
     const { deleteRecipe } = this.props;
     deleteRecipe(this.props.authReducer.accessToken, this.props.recipeReducer.recipe._id);
-    //this.setState({editedValues: true});
   }
 
   handleShow(e) {
@@ -87,7 +73,6 @@ class RecipePage extends Component {
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value })
-    console.log(this.state)
   }
 
   handleSubmit(e) {
@@ -95,7 +80,6 @@ class RecipePage extends Component {
     const { title, preparation_time, ingredients, instructions } = this.state;
     const { updateRecipe } = this.props;
     let id = this.props.recipeReducer.recipe._id;
-    console.log("RecipeID: " + id);
     updateRecipe(this.props.authReducer.accessToken, id, title, preparation_time, ingredients, instructions);
   }
 
@@ -124,9 +108,6 @@ class RecipePage extends Component {
       showDialog = false;
     }
 
-    console.log("DEBUG recP: ");
-    console.log(this.props.recipeReducer.recipes);
-
     let recipe = this.props.recipeReducer.recipe;
     let shownRecipes;
     if (recipeID) {
@@ -145,8 +126,6 @@ class RecipePage extends Component {
             updateButton = <Button className={style.btn} onClick={this.handleShow} >Updaten</Button>
           }
         }
-
-        console.log(JSON.stringify(recipe));
 
         shownRecipes = (
           <div>

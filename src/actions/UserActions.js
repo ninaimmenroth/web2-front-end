@@ -16,6 +16,8 @@ export const SHOW_USER_EDIT_DIALOG = 'SHOW_USER_EDIT_DIALOG';
 export const HIDE_USER_EDIT_DIALOG = 'HIDE_USER_EDIT_DIALOG';
 export const SHOW_USER_NEW_DIALOG = 'SHOW_USER_NEW_DIALOG';
 export const HIDE_USER_NEW_DIALOG = 'HIDE_USER_NEW_DIALOG';
+export const SHOW_USER_DEL_DIALOG = 'SHOW_USER_DEL_DIALOG';
+export const HIDE_USER_DEL_DIALOG = 'HIDE_USER_DEL_DIALOG';
 
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_PENDING = 'EDIT_USER_PENDING';
@@ -73,6 +75,18 @@ export function getShowUserDialogAction(){
 export function getHideUserDialogAction(){
     return {
         type: HIDE_USER_DIALOG
+    }
+}
+
+export function getShowUserDelDialogAction(){
+    return {
+        type: SHOW_USER_DEL_DIALOG
+    }
+}
+
+export function getHideUserDelDialogAction(){
+    return {
+        type: HIDE_USER_DEL_DIALOG
     }
 }
 
@@ -167,7 +181,6 @@ export function getDeleteUserFailedAction(error){
 }
 
 export function getAllUsers(token){
-    console.log('get users');
 
     return dispatch => {
         dispatch(getGetUsersPendingAction());
@@ -204,7 +217,6 @@ function getAllUsersRequest(token){
 }
 
 export function getSingleUser(token, userID){
-    console.log('get one user');
 
     return dispatch => {
         dispatch(getGetSingleUserPendingAction());
@@ -268,9 +280,7 @@ function updateUserRequest(token, userID, userName, password, deleted_flag, isAd
                 },
         body: JSON.stringify({ userName, password, deleted_flag, isAdministrator })
     };
-    console.log("DEBUG REQUEST");
-    console.log(token);
-    console.log(config.backendURL + config.backendEndpoints.singleUser + userID);
+    
     return fetch(config.backendURL + config.backendEndpoints.singleUser + userID, requestOptions)
         .then(handleResponse)
         .then(userSession => {
@@ -313,7 +323,6 @@ function deleteUserRequest(token, userID) {
 }
 
 function handleResponse(response){
-    console.log("HANDLERESPONSE");
     return response.text().then(text => {
         
         const data = text && JSON.parse(text);
@@ -327,7 +336,6 @@ function handleResponse(response){
             return Promise.reject(error);
         }
         else{
-            console.log(data)
             let userList = data;
             return userList;
         }
@@ -335,7 +343,6 @@ function handleResponse(response){
 }
 
 export function createUser(token, userID, userName, password, isAdministrator){
-    console.log('create user');
 
     return dispatch => {
         dispatch(getNewUserPendingAction());

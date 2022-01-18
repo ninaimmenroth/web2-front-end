@@ -73,7 +73,6 @@ class UserSessionWidget extends Component {
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value })
-        //console.log(JSON.stringify(this.state));
     }
 
     handleSubmit(e) {
@@ -170,7 +169,7 @@ class UserSessionWidget extends Component {
 
                                     {loginButton}
                                     {/*isError && <Form.Label style={{ color: "red" }}>Invalid user ID or password</Form.Label>*/}
-                                    {loginPending && <Spinner animation="border" variant="primary" />}
+                                    {loginPending && <Spinner animation="border" variant="dark" />}
                                 </div> </Form.Group>
 
                         </Form>

@@ -7,59 +7,47 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 
 
 const mapStateToProps = state => {
-    return state;
+  return state;
 }
- 
+
 class PublicPage extends Component {
 
 
 
-    async componentDidMount(){
-      console.log('Component did mount');
+  async componentDidMount() {
+    const { getGetRecipesAction } = this.props;
+    await getGetRecipesAction();
+  }
 
-        const { getGetRecipesAction } = this.props;
-        await getGetRecipesAction();
+  render() {
+    let shownRecipes;
+    let user = this.props.authReducer.user;
+    let isAdmin;
+    if (!user) {
+      isAdmin = false;
+    } else {
+      isAdmin = user.isAdministrator;
     }
 
-    async componentDidUpdate(prevProps){
-        console.log('Component did update');
-        
-          //const { getGetRecipesAction } = this.props;
-          //await getGetRecipesAction();
-      }
 
-    render() {
-      let shownRecipes;
-      let user = this.props.authReducer.user;
-      let isAdmin;
-      if(!user){
-        isAdmin = false;
-      } else {
-        isAdmin = user.isAdministrator;
-      }
-
-
-      if(this.props.recipeReducer.recipes) {
-        shownRecipes = this.props.recipeReducer.recipes;
-      }
-
-      console.log('render method:')
-      console.log(shownRecipes);
-
-        return (
-            <div style={{margin: '5px'}}>
-                <h4>Du bist noch nicht eingeloggt.</h4>
-                <h4>Logge dich schnell ein oder registriere dich, um die volle Funktionalität von Cuvega genießen zu können!</h4>
-                <LoginButton/>
-                <CardList recipes={shownRecipes} isAdmin={isAdmin}/>
-            </div>
-        )
+    if (this.props.recipeReducer.recipes) {
+      shownRecipes = this.props.recipeReducer.recipes;
     }
+
+    return (
+      <div style={{ margin: '5px' }}>
+        <h4>Du bist noch nicht eingeloggt.</h4>
+        <h4>Logge dich schnell ein oder registriere dich, um die volle Funktionalität von Cuvega genießen zu können!</h4>
+        <LoginButton />
+        <CardList recipes={shownRecipes} isAdmin={isAdmin} />
+      </div>
+    )
+  }
 }
 //<CardList recipes={shownRecipes}/>
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getGetRecipesAction: RecipeActions.getAllRecipes
+  getGetRecipesAction: RecipeActions.getAllRecipes
 }, dispatch)
 
 const ConnectedPublicPage = connect(mapStateToProps, mapDispatchToProps)(PublicPage)

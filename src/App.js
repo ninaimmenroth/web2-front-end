@@ -9,8 +9,6 @@ import RecipePage from './components/pages/RecipePage';
 import RecipeCreationPage from './components/pages/RecipeCreationPage';
 import AdminPage from './components/pages/AdminPage';
 import ProfilePage from './components/pages/ProfilePage';
-
-//import UsersPage from './components/UsersPage';
 import Footer from './components/util/Footer';
 import "@fontsource/ropa-sans"; // Defaults to weight 400.
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';

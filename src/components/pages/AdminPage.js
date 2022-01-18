@@ -1,20 +1,17 @@
 import React, { Component } from "react";
-import UserTable from '../util/UserTable';
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect } from 'react-redux';
-//import { useParams } from "react-router-dom";
 import * as UserActions from '../../actions/UserActions'
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import {Link} from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import Spinner from 'react-bootstrap/Spinner';
 
 const mapStateToProps = state => {
     return state;
 };
-
-
 
 class AdminPage extends Component {
     constructor(props) {
@@ -72,7 +69,7 @@ class AdminPage extends Component {
     
     async delUser(e) {
         e.preventDefault();
-        const {deleteUser, refreshUserAction} = this.props;
+        const {deleteUser} = this.props;
         await deleteUser(this.props.authReducer.accessToken, e.target.getAttribute("data-value"));
         this.handleRefresh();
     }
@@ -80,14 +77,11 @@ class AdminPage extends Component {
     handleChange(e){
         const {name, value} = e.target;
         this.setState({[name]: value})
-        console.log(this.state)
     }
 
     handleChangeCheckbox(e){
         const {name, checked} = e.target;
-        console.log(checked)
         this.setState({[name]: checked})
-        console.log(this.state)
     }
 
     async handleSubmit(e){
@@ -132,6 +126,7 @@ class AdminPage extends Component {
         if(showCreateDialog === undefined){
             showCreateDialog = false;
         }
+        const spinner = this.props.userReducer.spinner;
 
         let userEditCheckboxField = "";
         if(this.state.edit_isAdministrator === "true") {
@@ -175,8 +170,9 @@ class AdminPage extends Component {
                                 </>
                             ) : ( <></> )}
                             <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-                                Submit
+                                Senden
                             </Button>
+                            {spinner && <Spinner animation="border" variant="dark" />}
                           </Form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -185,7 +181,7 @@ class AdminPage extends Component {
 
                 <Modal show={showCreateDialog} onHide={this.handleCloseCreate}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Erstelle neue/n Nutzer/in {this.state.edit_userID}</Modal.Title>
+                        <Modal.Title>Erstelle neue/n Nutzer/in</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -207,8 +203,9 @@ class AdminPage extends Component {
                     </Form.Group><br></br>
                             
                             <Button variant="primary" type="submit" onClick={this.handleSubmitCreate}>
-                                Submit
+                                Senden
                             </Button>
+                            {spinner && <Spinner animation="border" variant="dark" />}
                           </Form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -217,6 +214,9 @@ class AdminPage extends Component {
 
                 <h1>Admin Bereich</h1>
                 <Button onClick={this.handleShowCreate}>User erstellen</Button>
+                <Button style={{margin: '0px 5px'}} onClick={this.handleRefresh}>
+                    User laden
+                </Button>
 
                 <Table hover responsive>
                     <thead>
@@ -229,13 +229,15 @@ class AdminPage extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {(!shownUsers) ? "NO ENTRY !" : shownUsers.map(users => (
-                            <tr>
+                        {(!shownUsers) ? "NO ENTRY !" : shownUsers.map((users, index) => (
+                            <tr key={index}>
                                 <td>{users.userName}</td>
                                 <td>{users.isAdministrator ? "Ja" : "Nein"}</td>
                                 <td>{users.deleted_flag ? "Ja" : "Nein"}</td>
                                 <td><Link to="#" data-value1={users.userID} data-value2={users.isAdministrator} data-value3={users.userName} className="btn btn-primary" onClick={this.handleShow}>Bearbeiten</Link></td>
-                                <td><Link to="#" data-value={users.userID} className="btn btn-primary" onClick={this.delUser}>Löschen</Link></td>
+                                <td><Link to="#" data-value={users.userID} className="btn btn-primary" onClick={this.delUser}>
+                                    Löschen
+                                    </Link></td>
                             </tr>
                         ))}
                     </tbody>

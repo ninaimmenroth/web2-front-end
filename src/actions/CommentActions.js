@@ -155,7 +155,6 @@ export function getDeleteCommentFailedAction(error){
 }
 
 export function getCommentsRecipe(recipeID){
-    console.log('get comments');
 
     return dispatch => {
         dispatch(getGetCommentsPendingAction());
@@ -188,7 +187,6 @@ function getCommentsRecipeRequest(recipeID){
 }
 
 export function getSingleComment(commentID){
-    console.log('get one comment');
 
     return dispatch => {
         dispatch(getGetSingleCommentPendingAction());
@@ -235,7 +233,6 @@ function handleResponse(response){
             return Promise.reject(error);
         }
         else{
-            console.log(data)
             let commentList = data;
             return commentList;
         }
@@ -248,8 +245,7 @@ function logout(){
 }
 
 export function createComment(token, recipeID, text){
-    console.log('create comment');
-
+   
     return dispatch => {
         dispatch(getNewCommentPendingAction());
         createCommentRequest(token, recipeID, text)
@@ -312,7 +308,7 @@ function deleteCommentRequest(token, commentID) {
             "Content-Type": "application/json"
         }
     };
-    console.log(config.backendURL + config.backendEndpoints.comments + commentID);
+    
     return fetch(config.backendURL + config.backendEndpoints.comments + commentID, requestOptions)
         .then(handleResponse)
         .then(userSession => {
@@ -348,9 +344,7 @@ function updateCommentRequest(token, commentID, text) {
                 },
         body: JSON.stringify({ text})
     };
-    console.log("DEBUG REQUEST");
-    console.log(token);
-    console.log(config.backendURL + config.backendEndpoints.comments + commentID);
+    
     return fetch(config.backendURL + config.backendEndpoints.comments + commentID, requestOptions)
         .then(handleResponse)
         .then(commentSession => {

@@ -6,7 +6,8 @@
         "singleRecipe": "/recipes/",
         "users": "/users",
         "singleUser": "/users/",
-        "comments": "/comments/"
+        "comments": "/comments/",
+        "userRecipes": "/recipes/user/"
     },
 
     "frontendEndpoints": {

@@ -4,6 +4,7 @@ import * as RecipeActions from '../../actions/RecipeActions';
 import { bindActionCreators } from "@reduxjs/toolkit";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import Spinner from 'react-bootstrap/Spinner'
 
 const mapStateToProps = state => {
     return state
@@ -35,31 +36,29 @@ class RecipeCreationPage extends Component {
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value })
-        //console.log(JSON.stringify(this.state));
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const { title, preparation_time, ingredients, instructions} = this.state;
         const { createRecipeAction } = this.props;
-        console.log(JSON.stringify({ title, preparation_time, ingredients, instructions }));
-
-        /*
-        ingredients: [JSON.stringify(ingredients).split('\n').map(ingr =>(
-            {text: ingr},
-        ))]*/
 
         createRecipeAction(this.props.authReducer.accessToken, title, preparation_time, ingredients, instructions );
     }
 
     render() {
         let submitButton;
+        const spinner = this.props.recipeReducer.spinner;
+
         if (this.canSubmit()) {
-            submitButton = <Button variant="primary" type="submit" onClick={this.handleSubmit}>Abschicken</Button>
+            submitButton = <Button variant="primary" type="submit" onClick={this.handleSubmit}>
+                Abschicken
+                {spinner && <Spinner animation="border" variant="dark" size='sm'/>}
+                </Button>
         } else {
             submitButton = <Button variant="primary" type="submit" disabled>Abschicken</Button>
         }
-
+        
         return (
             <div style={{margin: '5px'}}>
                 <h1>Rezept erstellen</h1>

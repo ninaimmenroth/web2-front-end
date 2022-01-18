@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect } from 'react-redux';
-//import { useParams } from "react-router-dom";
-import * as UserActions from '../../actions/UserActions'
+import * as UserActions from '../../actions/UserActions';
+import * as RecipeActions from '../../actions/RecipeActions';
+import CardList from '../util/CardList';
+
 import Button from 'react-bootstrap/Button';
-import Table from 'react-bootstrap/Table';
-import {Link} from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
@@ -21,35 +22,29 @@ class ProfilePage extends Component {
         this.state = {
             edit_userName: "",
             edit_password: "",
-            edit_deleted_flag: false,
-            editedValues: false
+            edit_deleted_flag: false
         };
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-
+        this.handleShowQuestion = this.handleShowQuestion.bind(this);
+        this.handleCloseQuestion = this.handleCloseQuestion.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.delUser = this.delUser.bind(this);
+
     }
 
     async componentDidMount() {
-        const { getGetSingleUser } = this.props;
+        const { getGetSingleUser, getRecipesForUser} = this.props;
         await getGetSingleUser(this.props.authReducer.accessToken, this.props.authReducer.user.userID);
+        await getRecipesForUser(this.props.authReducer.user.userID);
     };
-
-    async componentDidUpdate() {
-          if(this.state.editedValues) {
-            this.setState({editedValues: false});
-            const { getGetSingleUser } = this.props;
-            await getGetSingleUser(this.props.authReducer.accessToken, this.props.authReducer.user.userID);
-        }
-    }
 
     delUser(e) {
         e.preventDefault();
         const {deleteUser} = this.props;
-        deleteUser(this.props.authReducer.accessToken, e.target.getAttribute("data-value"));
-        this.setState({editedValues: true});
+        deleteUser(this.props.authReducer.accessToken, this.props.authReducer.user.userID);
     }
 
     handleShow(e){
@@ -60,22 +55,25 @@ class ProfilePage extends Component {
         const {showUserEditDialogAction} = this.props;
         showUserEditDialogAction();
     }
+
     handleClose(){
         const {hideUserEditDialogAction} = this.props;
         hideUserEditDialogAction();
     }
 
+    handleShowQuestion(){
+        const {showUserDelDialogAction} = this.props;
+        showUserDelDialogAction();
+    }
+
+    handleCloseQuestion(){
+        const {hideUserDelDialogAction} = this.props;
+        hideUserDelDialogAction();
+    }
+
     handleChange(e){
         const {name, value} = e.target;
         this.setState({[name]: value})
-        console.log(this.state)
-    }
-
-    handleChangeCheckbox(e){
-        const {name, checked} = e.target;
-        console.log(checked)
-        this.setState({[name]: checked})
-        console.log(this.state)
     }
 
     handleSubmit(e){
@@ -102,6 +100,20 @@ class ProfilePage extends Component {
             showDialog = false;
         }
 
+        var showDelDialog = this.props.userReducer.showUserDelDialog;
+        if(showDelDialog === undefined){
+            showDelDialog = false;
+        }
+
+        let shownRecipes = this.props.recipeReducer.userRecipes;
+        if( JSON.stringify(shownRecipes) === '[{}]' || JSON.stringify(shownRecipes) === '[]') {
+          shownRecipes = false;
+        } else {
+            shownRecipes = this.props.recipeReducer.userRecipes;
+        }
+
+        const spinner = this.props.userReducer.spinner;
+
         return (
             <div style={{margin: '5px'}}>
                 <Modal show={showDialog} onHide={this.handleClose}>
@@ -121,9 +133,24 @@ class ProfilePage extends Component {
                             </Form.Group><br></br>
 
                             <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-                                Submit
+                                Senden
                             </Button>
+                            {spinner && <Spinner animation="border" variant="dark" />}
                           </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={showDelDialog} onHide={this.handleCloseQuestion}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Möchtest du wirklich deinen Account löschen?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                            <p>Löschung wird beantragt und nach Prüfung von einem Admin ausgeführt.</p>
+                            <Button variant="primary" type="submit" onClick={this.delUser}>
+                                Löschung beantragen
+                            </Button>
+                            {spinner && <Spinner animation="border" variant="dark" />}
                     </Modal.Body>
                     <Modal.Footer>
                     </Modal.Footer>
@@ -136,11 +163,19 @@ class ProfilePage extends Component {
                     <p>Username: {shownUser.userName}</p>
                     <p>Ist dabei seit {date.toLocaleString().split(',')[0]}.</p>
                     <p>Zuletzt aktualisiert {dateup.toLocaleString()}.</p>
+                    {shownUser.deleted_flag && <p style={{color: 'red'}}>Löschung beantragt. Um Löschung zurückzunehmen kannst du einfach dein Profil bearbeiten.</p>}
                     </div>
                 )}
-                <Button onClick={this.handleShow}>Daten editieren</Button>
+                <Button style={{margin: '20px'}} onClick={this.handleShow}>Daten editieren</Button>
+                <Button style={{margin: '20px'}} onClick={this.handleShowQuestion}>Profil löschen</Button>
 
-                
+                <h2>Rezepte von {shownUser.userID}</h2>
+                {shownRecipes ? 
+                <CardList recipes={shownRecipes}/> : 
+                <div>
+                    <p>Hier ist noch nichts zu sehen.</p>
+                    <div className="profileblock"></div>
+                </div>}
             </div>
         )
     }
@@ -150,8 +185,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     getGetSingleUser: UserActions.getSingleUser,
     updateUser: UserActions.updateUser,
     showUserEditDialogAction: UserActions.getShowUserEditDialogAction,
-    hideUserEditDialogAction: UserActions.getHideUserEditDialogAction
-
+    hideUserEditDialogAction: UserActions.getHideUserEditDialogAction,
+    showUserDelDialogAction: UserActions.getShowUserDelDialogAction,
+    hideUserDelDialogAction: UserActions.getHideUserDelDialogAction,
+    getRecipesForUser: RecipeActions.getRecipesForUser,
+    deleteUser: UserActions.deleteUser
 }, dispatch)
 
 const ConnectedProfilePage = connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

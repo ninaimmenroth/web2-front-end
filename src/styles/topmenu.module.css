@@ -7,7 +7,6 @@
     
 }
 
-/* Style the links inside the navigation bar */
 .navbar a {
     float: left;
     display: block;
@@ -18,13 +17,11 @@
     font-size: 24px;
 }
   
-  /* Change the color of links on hover */
 .navbar a:hover {
     
     color: #D4AC9C !important;
 }
   
-  /* Style the "active" element to highlight the current page */
 .navbar a.active {
     background-color: #7D5730;
     color: white;

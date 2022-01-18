@@ -6,14 +6,26 @@ const initialState = {
     usersPending: false,
     userLoaded: false,
     showUserEditDialog: false,
-    showUserCreateDialog: false
+    showUserCreateDialog: false,
+    showUserDeleteDialog: false,
+    spinner: false
 };
 
 function UserReducer(state = initialState, action) {
 
-    console.log('Reducer: ' + action.type)
-
     switch (action.type) {
+        case UserActions.SHOW_USER_DEL_DIALOG:
+            return {
+                ...state,
+                showUserDelDialog: true,
+                error: null
+            }
+        case UserActions.HIDE_USER_DEL_DIALOG:
+            return {
+                ...state,
+                showUserDelDialog: false,
+                error: null
+            }
         case UserActions.SHOW_USER_EDIT_DIALOG:
             return {
                 ...state,
@@ -39,7 +51,6 @@ function UserReducer(state = initialState, action) {
                 error: null
             }
         case UserActions.GET_USERS_SUCCESS:
-            console.log('Reducer: ' + action)
             return {
                 ...state,
                 users: action.users,
@@ -63,7 +74,6 @@ function UserReducer(state = initialState, action) {
             }
 
         case UserActions.GET_SINGLE_USER_SUCCESS:
-            console.log('Reducer gSRS: ' + action)
             return {
                 ...state,
                 user: action.user,
@@ -87,6 +97,8 @@ function UserReducer(state = initialState, action) {
             return {
                 ...state,
                 usersPending: false,
+                spinner: false,
+                showUserCreateDialog: false,
                 user: action.newUser
             }
         case UserActions.NEW_USER_PENDING:
@@ -94,6 +106,7 @@ function UserReducer(state = initialState, action) {
                 ...state,
                 usersPending: true,
                 userLoaded: false,
+                spinner: true,
                 error: null
             }
         case UserActions.NEW_USER_FAILED:
@@ -101,6 +114,7 @@ function UserReducer(state = initialState, action) {
                 ...state,
                 usersPending: false,
                 userLoaded: false,
+                spinner: false,
                 error: "Create user failed"
             }
         case UserActions.NO_USER:
@@ -113,34 +127,41 @@ function UserReducer(state = initialState, action) {
             return {
                 ...state,
                 showUserEditDialog: false,
+                spinner: false,
                 error: null
             }
         case UserActions.EDIT_USER_PENDING:
             return {
                 ...state,
+                spinner: true,
                 error: null
             }
         case UserActions.EDIT_USER_FAILED:
             return {
                 ...state,
+                spinner: false,
                 error: "updating user failed"
             }
         case UserActions.DELETE_USER_SUCCESS:
             return {
                 ...state,
                 usersPending: false,
+                showUserDelDialog: false,
+                spinner: false,
                 error: null
             }
         case UserActions.DELETE_USER_PENDING:
             return {
                 ...state,
                 usersPending: true,
+                spinner: true,
                 error: null
             }
         case UserActions.DELETE_USER_FAILED:
             return {
                 ...state,
                 usersPending: false,
+                spinner: false,
                 error: "deleting user failed"
             }
         default:

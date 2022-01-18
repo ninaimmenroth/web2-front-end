@@ -2,14 +2,15 @@ import * as RecipeActions from '../actions/RecipeActions'
 
 const initialState = {
     recipes: [{}],
+    userRecipes: [{}],
     recipe: [{}],
     recipesPending: false,
-    showRecipeEditDialog: false
+    showRecipeEditDialog: false,
+    spinner: false
 };
 
 function RecipeReducer(state = initialState, action) {
 
-    console.log('Reducer: ' + action.type)
 
     switch (action.type) {
         case RecipeActions.SHOW_RECIPE_EDIT_DIALOG:
@@ -28,20 +29,22 @@ function RecipeReducer(state = initialState, action) {
             return {
                 ...state,
                 showRecipeEditDialog: false,
+                spinner: false,
                 error: null
             }
         case RecipeActions.EDIT_RECIPE_PENDING:
             return {
                 ...state,
+                spinner: true,
                 error: null
             }
         case RecipeActions.EDIT_RECIPE_FAILED:
             return {
                 ...state,
+                spinner: false,
                 error: "updating user failed"
             }
         case RecipeActions.GET_RECIPES_SUCCESS:
-            console.log('Reducer: ' + action)
             return {
                 ...state,
                 recipes: action.recipes,
@@ -60,9 +63,26 @@ function RecipeReducer(state = initialState, action) {
                 recipesPending: false,
                 error: "Get recipes failed"
             }
-
+        case RecipeActions.GET_RECIPES_USER_SUCCESS:
+            return {
+                ...state,
+                userRecipes: action.recipes,
+                recipesPending: false,
+                error: null
+            }
+        case RecipeActions.GET_RECIPES_USER_PENDING:
+            return {
+                ...state,
+                recipesPending: true,
+                error: null
+            }
+        case RecipeActions.GET_RECIPES_USER_FAILED:
+            return {
+                ...state,
+                recipesPending: false,
+                error: "Get recipes for user failed"
+            }
         case RecipeActions.GET_SINGLE_RECIPE_SUCCESS:
-            console.log('Reducer gSRS: ' + action)
             return {
                 ...state,
                 recipe: action.recipe,
@@ -85,18 +105,21 @@ function RecipeReducer(state = initialState, action) {
             return {
                 ...state,
                 recipe: action.recipes,
+                spinner: false,
                 recipesPending: false
             }
         case RecipeActions.NEW_RECIPE_PENDING:
             return {
                 ...state,
                 recipesPending: true,
+                spinner: true,
                 error: null
             }
         case RecipeActions.NEW_RECIPE_FAILED:
             return {
                 ...state,
                 recipesPending: false,
+                spinner: false,
                 error: "Create recipe failed"
             }
         case RecipeActions.DELETE_RECIPE_SUCCESS:
