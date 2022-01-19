@@ -27,7 +27,6 @@ class ProfilePage extends Component {
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
         this.handleShowQuestion = this.handleShowQuestion.bind(this);
         this.handleCloseQuestion = this.handleCloseQuestion.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -81,7 +80,6 @@ class ProfilePage extends Component {
         const { edit_userName, edit_password} = this.state;
         const {updateUser} = this.props;
         updateUser(this.props.authReducer.accessToken, this.props.authReducer.user.userID, edit_userName, edit_password);
-        this.setState({editedValues: true});
     }
 
     render() {
@@ -113,6 +111,10 @@ class ProfilePage extends Component {
         }
 
         const spinner = this.props.userReducer.spinner;
+        let isError = this.props.userReducer.error;
+        if (isError === undefined) {
+            isError = false;
+        }
 
         return (
             <div style={{margin: '5px'}}>
@@ -136,6 +138,8 @@ class ProfilePage extends Component {
                                 Senden
                             </Button>
                             {spinner && <Spinner animation="border" variant="dark" />}
+                            {isError && <Form.Label style={{ color: "red", backgroundColor: 'white' }}>Das hat leider nicht geklappt.</Form.Label>}
+
                           </Form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -151,6 +155,8 @@ class ProfilePage extends Component {
                                 Löschung beantragen
                             </Button>
                             {spinner && <Spinner animation="border" variant="dark" />}
+                            {isError && <Form.Label style={{ color: "red", backgroundColor: 'white' }}>Das hat leider nicht geklappt.</Form.Label>}
+
                     </Modal.Body>
                     <Modal.Footer>
                     </Modal.Footer>

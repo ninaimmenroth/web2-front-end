@@ -58,6 +58,11 @@ class RecipeCreationPage extends Component {
         } else {
             submitButton = <Button variant="primary" type="submit" disabled>Abschicken</Button>
         }
+
+        let isError = this.props.recipeReducer.error;
+        if (isError === undefined) {
+            isError = false;
+        }
         
         return (
             <div style={{margin: '5px'}}>
@@ -76,10 +81,11 @@ class RecipeCreationPage extends Component {
                         <Form.Control as="textarea" rows={5} name='instructions' onChange={this.handleChange} />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                        <Form.Label>Zubereitungszeit</Form.Label>
-                        <Form.Control type="text" name='preparation_time' onChange={this.handleChange} />
+                        <Form.Label>Zubereitungszeit in Minuten</Form.Label>
+                        <Form.Control type="number" name='preparation_time' onChange={this.handleChange} />
                     </Form.Group>
                     {submitButton}
+                    {isError && <Form.Label style={{ color: "red" }}>Das hat leider nicht geklappt.</Form.Label>}
                 </Form>
             </div>
         )

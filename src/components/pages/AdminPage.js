@@ -38,6 +38,7 @@ class AdminPage extends Component {
         this.handleShowCreate = this.handleShowCreate.bind(this);
         this.handleSubmitCreate = this.handleSubmitCreate.bind(this);
         this.handleRefresh = this.handleRefresh.bind(this);
+        this.canSubmit = this.canSubmit.bind(this);
 
     }
 
@@ -112,6 +113,14 @@ class AdminPage extends Component {
         this.handleRefresh();
     }
 
+    canSubmit() {
+        const { new_userID, new_userName, new_password } = this.state;
+        if (new_userID && new_userName && new_password) {
+            return true;
+        }
+        return false;
+    }
+
     render() {
         const isAdmin = this.props.authReducer.user.isAdministrator;
         let shownUsers = this.props.userReducer.users;
@@ -128,6 +137,16 @@ class AdminPage extends Component {
         }
         const spinner = this.props.userReducer.spinner;
 
+        let submitButton;
+        if (this.canSubmit()) {
+            submitButton = <Button variant="primary" type="submit" onClick={this.handleSubmitCreate}>
+                Abschicken
+                {spinner && <Spinner animation="border" variant="dark" size='sm'/>}
+                </Button>
+        } else {
+            submitButton = <Button variant="primary" type="submit" disabled>Abschicken</Button>
+        }
+
         let userEditCheckboxField = "";
         if(this.state.edit_isAdministrator === "true") {
             userEditCheckboxField =
@@ -143,6 +162,10 @@ class AdminPage extends Component {
                         <Form.Check type="checkbox" label="Admin Privilegien" name="edit_isAdministrator" onChange={this.handleChangeCheckbox} />
                     </Form.Group><br></br>
                 </>;
+        }
+        let isError = this.props.userReducer.error;
+        if (isError === undefined) {
+            isError = false;
         }
 
         return (
@@ -173,6 +196,8 @@ class AdminPage extends Component {
                                 Senden
                             </Button>
                             {spinner && <Spinner animation="border" variant="dark" />}
+                            {isError && <Form.Label style={{ color: "red", backgroundColor: 'white' }}>Das hat leider nicht geklappt.</Form.Label>}
+
                           </Form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -202,10 +227,9 @@ class AdminPage extends Component {
                         <Form.Check type="checkbox" label="Admin Privilegien" name="new_isAdministrator" onChange={this.handleChangeCheckbox} />
                     </Form.Group><br></br>
                             
-                            <Button variant="primary" type="submit" onClick={this.handleSubmitCreate}>
-                                Senden
-                            </Button>
+                            {submitButton}
                             {spinner && <Spinner animation="border" variant="dark" />}
+                            {isError && <Form.Label style={{ color: "red", backgroundColor: 'white' }}>Das hat leider nicht geklappt. Probiere eine andere UserID.</Form.Label>}
                           </Form>
                     </Modal.Body>
                     <Modal.Footer>

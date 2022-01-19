@@ -96,6 +96,12 @@ class UserSessionWidget extends Component {
         } else {
             loginButton = <Button type="submit" disabled>Login</Button>
         }
+        
+        let isError = this.props.authReducer.error;
+        if (isError === undefined) {
+            isError = false;
+        }
+
 
         let widgetButton;
         if (user) {
@@ -168,7 +174,7 @@ class UserSessionWidget extends Component {
                                 <div className="d-flex align-items-center">
 
                                     {loginButton}
-                                    {/*isError && <Form.Label style={{ color: "red" }}>Invalid user ID or password</Form.Label>*/}
+                                    {isError && <Form.Label style={{ color: "red" }}>Invalides UserID oder Passwort</Form.Label>}
                                     {loginPending && <Spinner animation="border" variant="dark" />}
                                 </div> </Form.Group>
 

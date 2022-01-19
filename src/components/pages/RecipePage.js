@@ -123,7 +123,7 @@ class RecipePage extends Component {
             delButton = <Button className={style.btn} onClick={this.delRecipe} >Löschen</Button>
           }
           if (user.userID === recipe.authorID) {
-            updateButton = <Button className={style.btn} onClick={this.handleShow} >Updaten</Button>
+            updateButton = <Button className={style.btn} onClick={this.handleShow} >Bearbeiten</Button>
           }
         }
 
@@ -172,6 +172,11 @@ class RecipePage extends Component {
       submitButton = <Button variant="primary" type="submit" disabled>Abschicken</Button>
     }
 
+    let isError = this.props.recipeReducer.error;
+        if (isError === undefined) {
+            isError = false;
+        }
+
     return (
       <div>
         <Modal show={showDialog} onHide={this.handleClose}>
@@ -197,6 +202,7 @@ class RecipePage extends Component {
                 <Form.Control type="number" name='preparation_time' value={this.state.preparation_time} onChange={this.handleChange} />
               </Form.Group>
               {submitButton}
+              {isError && <Form.Label style={{ color: "red" }}>Das hat leider nicht geklappt.</Form.Label>}
             </Form>
           </Modal.Body>
           <Modal.Footer>
